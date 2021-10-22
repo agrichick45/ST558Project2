@@ -1,0 +1,94 @@
+---
+title: "project2_Yan"
+author: "Yan Liu"
+date: "2021/10/21"
+output: 
+   github_document:
+    toc: true
+    html_preview: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Subset the data to work on the data channel of interest
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+library(tidyverse)
+library(caret)
+library(rsample)
+
+data_whole<-read_csv("OnlineNewsPopularity/OnlineNewsPopularity.csv")
+
+#create a new variable to help with the subsetting.
+data_whole$channel <- names(data_whole[14:19])[apply(data_whole[14:19],1, match, x = 1)]
+data_whole$channel <-sub("data_channel_is_", "", data_whole$channel)
+
+#create a new variable to help with the creating plots.
+data_whole$weekday <- names(data_whole[32:38])[apply(data_whole[32:38],1, match, x = 1)]
+data_whole$weekday <-sub("weekday_is_", "", data_whole$weekday)
+
+#Subset the data to work on the data channel of interest 32:38,
+data_interest<-data_whole%>%
+  filter(channel=="lifestyle")%>%
+  select(-c(1,14:19,62))
+```
+
+split the data into a training (70% of the data) and test set (30% of the data)
+```{r}
+set.seed(14)
+index <- initial_split(data_interest,
+                       prop = 0.7)
+train <- training(index)
+test <- testing(index)
+```
+
+summarize the train data in tables and plots
+```{r}
+#summarize the train data by weekday.
+train%>%group_by(weekday)%>%
+  summarise(Avg=round(mean(shares),0),Sd=round(sd(shares),0),Median=median(shares),IQR=round(IQR(shares),0))
+
+#use boxplot to show the difference in the train data.
+g1<-ggplot(train, aes(x=factor(is_weekend,labels=c("No", "Yes")),y=shares))
+g1+geom_boxplot(fill="white", width=0.5,lwd=1.5,color='black',outlier.shape = NA)+
+   scale_y_continuous(limits = quantile(train$shares, c(0.1, 0.9)))+
+   labs(subtitle = "Boxplot for weekend",x="is_weekend")
+
+g2<-ggplot(train,aes(x=num_videos,y=shares))
+g2+geom_point(aes(color=factor(is_weekend)))+
+  labs(subtitle = "num_videos vs shares",color="is_weekend")+
+  scale_y_continuous(limits = quantile(train$shares, c(0, 0.9)))+
+  scale_x_continuous(limits = quantile(train$num_videos, c(0, 0.9)))
+  geom_smooth(method=lm,col="Blue")
+
+g3<-ggplot(train,aes(x=num_imgs,y=shares))
+g3+geom_point(aes(color=factor(is_weekend)))+
+  labs(subtitle = "num_imgs vs shares",color="is_weekend")+
+  scale_y_continuous(limits = quantile(train$shares, c(0, 0.9)))+
+  scale_x_continuous(limits = quantile(train$num_imgs, c(0, 0.9)))+
+  geom_smooth(method=lm,formula =y~`x`,col="Blue")
+
+lm(shares~num_imgs,train)
+```
+
+Models
+```{r}
+lm<- lm(shares~.,train[,-55])
+summary(lm)
+library(leaps)
+best<- regsubsets(shares~., train[,-55], nvmax = 50)
+best_summary<-summary(best)
+
+library(glmnet)
+x<-as.matrix(train[,-c(54,55)])
+y<-as.matrix(train[,54])
+lasso <- cv.glmnet(x=x, y=y, alpha = 1)
+lasso$lambda.1se
+plot(lasso)
+
+#refit the model with the whole dataset
+lasso_all<- glmnet(x=x, y=y, 
+                   alpha = 1)
+predict(lasso_all, type = "coefficients", s = lasso$lambda.1se)
+```
