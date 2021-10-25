@@ -16,19 +16,14 @@ Subset the data to work on the data channel of interest
 ```{r}
 library(tidyverse)
 library(caret)
-library(rsample)
 
 data_whole<-read_csv("OnlineNewsPopularity/OnlineNewsPopularity.csv")
 
-#create a new variable to help with the subsetting.
+#create a new variable, channel, to help with the subsetting.
 data_whole$channel <- names(data_whole[14:19])[apply(data_whole[14:19],1, match, x = 1)]
 data_whole$channel <-sub("data_channel_is_", "", data_whole$channel)
 
-#create a new variable to help with the creating plots.
-data_whole$weekday <- names(data_whole[32:38])[apply(data_whole[32:38],1, match, x = 1)]
-data_whole$weekday <-sub("weekday_is_", "", data_whole$weekday)
-
-#Subset the data to work on the data channel of interest 32:38,
+#Subset the data to work on the data channel of interest
 data_interest<-data_whole%>%
   filter(channel=="lifestyle")%>%
   select(-c(1,14:19,62))
@@ -36,6 +31,7 @@ data_interest<-data_whole%>%
 
 split the data into a training (70% of the data) and test set (30% of the data)
 ```{r}
+library(rsample)
 set.seed(14)
 index <- initial_split(data_interest,
                        prop = 0.7)
@@ -45,16 +41,25 @@ test <- testing(index)
 
 summarize the train data in tables and plots
 ```{r}
+#create a new variable, weekday, to help with the creating plots.
+train$weekday <- names(train[32:38])[apply(train[32:38],1, match, x = 1)]
+train$weekday <-sub("weekday_is_", "", train$weekday)
+
 #summarize the train data by weekday.
 train%>%group_by(weekday)%>%
   summarise(Avg=round(mean(shares),0),Sd=round(sd(shares),0),Median=median(shares),IQR=round(IQR(shares),0))
 
-#use boxplot to show the difference in the train data.
+#histogram of shares and log(shares). After log transformation, the distribution of log(share) is more close to a normal distribution.
+hist(train$shares)
+hist(log(train$shares))
+
+#use boxplot to show the difference in the train data. 
 g1<-ggplot(train, aes(x=factor(is_weekend,labels=c("No", "Yes")),y=shares))
 g1+geom_boxplot(fill="white", width=0.5,lwd=1.5,color='black',outlier.shape = NA)+
    scale_y_continuous(limits = quantile(train$shares, c(0.1, 0.9)))+
    labs(subtitle = "Boxplot for weekend",x="is_weekend")
 
+#use scatter to show the relationship between share and num_imgs in the train data.
 g3<-ggplot(train,aes(x=num_imgs,y=shares))
 g3+geom_point(aes(color=factor(is_weekend)))+
   labs(subtitle = "num_imgs vs shares",color="is_weekend")+
@@ -62,30 +67,34 @@ g3+geom_point(aes(color=factor(is_weekend)))+
   scale_x_continuous(limits = quantile(train$num_imgs, c(0, 0.9)))+
   geom_smooth(method="lm")
 
-#histogram of shares and log(shares)
-hist(train$shares)
-hist(log(train$shares))
+g3<-ggplot(train,aes(x=num_imgs,y=log(shares)))
+g3+geom_point(aes(color=factor(is_weekend)))+
+  labs(subtitle = "num_imgs vs log(shares)",color="is_weekend")+
+  scale_y_continuous(limits = quantile(log(train$shares), c(0, 0.9)))+
+  scale_x_continuous(limits = quantile(train$num_imgs, c(0, 0.9)))+
+  geom_smooth(method="lm")
 
+#remove weekday from data set
+train<-train%>%select(-weekday)
 
-ggplot(train, aes(x=shares)) +
-  geom_histogram(binwidth=1, boundary=.5, fill="white", color="black")
-
-lm(shares~num_imgs,train)
 ```
 
 Models
+# linear regression after log transformation
 ```{r}
-
-lm<- lm(log(shares)~.,train[,-55])
+lm<- lm(log(shares)~.,train)
 summary(lm)
-yhat_lm<-predict(lm,test[,-c(54,55)])
+yhat_lm<-predict(lm,test[,-54])
 RMSE_lm<-sqrt(mean((test$shares - exp(yhat_lm))^2))
-
+```
+# backward selection after log transformation
+```{r}
+#backward selection after log transformation
 library(leaps)
-backward<- regsubsets(log(shares)~., train[,-55], nvmax = 54, method = "backward")
+backward<- regsubsets(log(shares)~., train, nvmax = 53, method = "backward")
 backward_summary<-summary(backward)
 
-backward_summary$which[mod_size, ]
+#backward_summary[["which"]][size, ]
 par(mfrow=c(2,3))
 plot(backward_summary$cp, xlab = "Size", ylab = "backward Cp", type = "l")
 plot(backward_summary$bic, xlab = "Size", ylab = "backward bic", type = "l")
@@ -93,28 +102,29 @@ plot(backward_summary$adjr2, xlab = "Size", ylab = "backward adjR2", type = "l")
 
 coef(backward, which.min(backward_summary$cp))
 coef(backward, which.max(backward_summary$adjr2))
-coef(backward, 16)
-#get best subset of the specified size
+#get best subset of the specified size with min cp.
 sub <- backward_summary$which[which.min(backward_summary$cp), ]
 # Create test model matrix, predcition, test error
-test_model <- model.matrix(log(shares)~ ., data = test[,-55])
+test_model <- model.matrix(log(shares)~ ., data = test)
 model <- test_model[, sub]
 yhat_back<-model %*% coef(backward, which.min(backward_summary$cp))
 RMSE_back<-sqrt(mean((test$shares - exp(yhat_back))^2))
+```
 
-
-
+```{r}
 cvcontrol <- trainControl(method="cv", number = 10)
-grid <- expand.grid(nvmax=1:55)
-train_back <- train(shares ~ ., 
+grid <- expand.grid(nvmax=1:54)
+train_back <- train(log(shares) ~ ., 
                    data=train,
                    method="leapBackward",
                    trControl=cvcontrol,
                    tuneLength = 50,
-                             preProc = c("center", "scale"))
+                   preProc = c("center", "scale"))
 train_back$results
+```
 
-
+# lasso after log transformation
+```{r}
 library(glmnet)
 x<-as.matrix(train[,-c(54,55)])
 y<-as.matrix(train[,54])
@@ -128,8 +138,9 @@ lasso_all<- glmnet(x=x, y=log(y),
 predict(lasso_all, type = "coefficients", s = lasso$lambda.1se)
 ```
 
+# boosted tree
 ```{r}
-#boosted tree
+
 cvcontrol <- trainControl(method="repeatedcv", number = 10,
                           allowParallel=TRUE)
 train_bstTree <- train(log(shares) ~ ., 
@@ -141,16 +152,22 @@ train_bstTree$results
 
 grid <- expand.grid(n.trees = c(1000,1500), interaction.depth=c(1:3), shrinkage=c(0.01,0.05,0.1), n.minobsinnode=c(20))
 capture.output(train.gbm <- train(log(shares) ~ ., 
-                   data=train[,-55],
+                   data=train,
                    method="gbm",
                    trControl=cvcontrol,
                    tuneGrid = grid))
 train.gbm$results
 train.gbm$bestTune
 
+#refit the train set with bestTune
 library(gbm)
-boostFit<-gbm(log(shares) ~ ., data=train[,-55], distribution="gaussian",shrinkage=0.01,interaction.depth=1,n.trees=1000,n.minobsinnode=20)
-boostPred <- predict(boostFit, newdata = test[,-c(54,55)], n.trees = 5000)
+boostFit<-gbm(log(shares) ~ ., data=train,
+              distribution="gaussian",
+              shrinkage=0.01,
+              interaction.depth=1,
+              n.trees=1000,
+              n.minobsinnode=20)
+boostPred <- predict(boostFit, newdata = test[,-c(54,55)], n.trees = 1000)
 RMSE_boost <- sqrt(mean((test$shares - exp(boostPred))^2))
 ```
 
