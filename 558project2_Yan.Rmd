@@ -29,6 +29,7 @@ data_interest<-data_whole%>%
   select(-c(1,14:19,62))
 ```
 
+
 split the data into a training (70% of the data) and test set (30% of the data)
 ```{r}
 library(rsample)
@@ -38,6 +39,46 @@ index <- initial_split(data_interest,
 train <- training(index)
 test <- testing(index)
 ```
+
+### Mandy's Graphical Summaries 
+This stuff will come in handy later for predictions and summaries that we need to look at. I am going to be looking at some summary statistics and data by weekday (I think people share quite a bit at work.)
+```{r, eval=FALSE}
+library(Hmisc)
+library(corrplot)
+#Creating a Categorical Day of the Week Variable for a data frame  using the ifelse statements.
+train[ , 'day_week'] <- NA
+train$day_week<-ifelse(train$weekday_is_monday == '1', 'Monday', train$day_week )
+train$day_week<-ifelse(train$weekday_is_tuesday == '1', 'Tuesday', train$day_week )
+train$day_week<-ifelse(train$weekday_is_wednesday == '1', 'Wednesday', train$day_week )
+train$day_week<-ifelse(train$weekday_is_thursday == '1', 'Thursday', train$day_week )
+train$day_week<-ifelse(train$weekday_is_friday == '1', 'Friday', train$day_week )
+train$day_week<-ifelse(train$weekday_is_saturday == '1', 'Saturday', train$day_week )
+train$day_week<-ifelse(train$weekday_is_sunday == '1', 'Sunday', train$day_week )
+```
+
+This graphical function looks at the correlation of all of the different variables against each other. 
+```{r}
+#drop values that are not important (the days of the week)
+newTrain<-train[ -c(25:31) ]
+#drop the predictor variables
+predictTrain<-newTrain[ -c(47) ]
+#Calculate the correlation Matrix and round it
+res <- cor(predictTrain)
+round(res, 2)
+
+#Plot the correlation matrix values by cluster
+corrplot(res, type = "upper", order = "hclust",
+         tl.col = "black", tl.cex = 0.5)
+```
+From the results of this spot, it appears that we likely have some clusters of colinearity? How the self referencing scores (min, max, and average) are very much related. We likely can remove or pull these excess variables?
+
+
+```{r}
+#Holding this code for later
+#palette = colorRampPalette(c("green", "white", "red")) (20)
+#heatmap(x = res, col = palette, symm = TRUE, cexRow=0.5, cexCol = 0.5)
+```
+
 
 summarize the train data in tables and plots
 ```{r}
