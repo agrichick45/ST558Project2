@@ -24,8 +24,10 @@ data_whole$channel <- names(data_whole[14:19])[apply(data_whole[14:19],1, match,
 data_whole$channel <-sub("data_channel_is_", "", data_whole$channel)
 
 #Subset the data to work on the data channel of interest
+channel_interest = "lifestyle"
+
 data_interest<-data_whole%>%
-  filter(channel=="lifestyle")%>%
+  filter(channel==channel_interest)%>%
   select(-c(1,14:19,62))
 ```
 
@@ -40,6 +42,7 @@ train <- training(index)
 test <- testing(index)
 ```
 
+<<<<<<< HEAD
 ### Mandy's Graphical Summaries 
 This stuff will come in handy later for predictions and summaries that we need to look at. I am going to be looking at some summary statistics and data by weekday (I think people share quite a bit at work.)
 ```{r, eval=FALSE}
@@ -81,36 +84,57 @@ From the results of this spot, it appears that we likely have some clusters of c
 
 
 summarize the train data in tables and plots
+=======
+We summarize the train data of interest in tables grouped by weekdays, showing the pattern of shares in a week.
+>>>>>>> 8e0691190324333c56039973c4b2cd1561b9feda
 ```{r}
 #create a new variable, weekday, to help with the creating plots.
-train$weekday <- names(train[32:38])[apply(train[32:38],1, match, x = 1)]
+train$weekday <- names(train[25:31])[apply(train[25:31],1, match, x = 1)]
 train$weekday <-sub("weekday_is_", "", train$weekday)
 
-#summarize the train data by weekday.
-train%>%group_by(weekday)%>%
+#summarize the train data by weekday.knitr::kable(
+summary<-train%>%group_by(weekday)%>%
   summarise(Avg=round(mean(shares),0),Sd=round(sd(shares),0),Median=median(shares),IQR=round(IQR(shares),0))
-
-#histogram of shares and log(shares). After log transformation, the distribution of log(share) is more close to a normal distribution.
+knitr::kable(summary)
+```
+We summarize the train data of interest in the plots below. The histogram of shares shows that it is not a normal distribution.  After log transformation, the distribution of log(share) is more close to a normal distribution.
+```{r}
+#histogram of shares and log(shares).
 hist(train$shares)
 hist(log(train$shares))
-
-#use boxplot to show the difference in the train data. 
+```
+We use box plots to show the difference in shares and images between weekday and weekend.
+```{r}
+#use boxplot to show the difference in the train data.
+### try use y-axis on log-scale
+### add boxplot of num_images
 g1<-ggplot(train, aes(x=factor(is_weekend,labels=c("No", "Yes")),y=shares))
 g1+geom_boxplot(fill="white", width=0.5,lwd=1.5,color='black',outlier.shape = NA)+
    scale_y_continuous(limits = quantile(train$shares, c(0.1, 0.9)))+
-   labs(subtitle = "Boxplot for weekend",x="is_weekend")
+   labs(subtitle = "Shares on weekend",x="On weekend or not")
 
-#use scatter to show the relationship between share and num_imgs in the train data.
+g1_log<-ggplot(train, aes(x=factor(is_weekend,labels=c("No", "Yes")),y=log(shares)))
+g1_log+geom_boxplot(fill="white", width=0.5,lwd=1.5,color='black',outlier.shape = NA)+
+   labs(subtitle = "Shares on weekend",x="On weekend or not")
+
+g2<-ggplot(train, aes(x=factor(is_weekend,labels=c("No", "Yes")),y=num_imgs))
+g2+geom_boxplot(fill="white", width=0.5,lwd=1.5,color='black',outlier.shape = NA)+
+   scale_y_continuous(limits = quantile(train$num_imgs, c(0, 0.95)))+
+   labs(subtitle = "number of images on weekend",x="On weekend or not")
+```
+
+We use scatter plot to show the relationship between share and num_imgs in the train data.
+```{r}
 g3<-ggplot(train,aes(x=num_imgs,y=shares))
-g3+geom_point(aes(color=factor(is_weekend)))+
-  labs(subtitle = "num_imgs vs shares",color="is_weekend")+
+g3+geom_point()+
+  labs(subtitle = "num_imgs vs shares")+
   scale_y_continuous(limits = quantile(train$shares, c(0, 0.9)))+
   scale_x_continuous(limits = quantile(train$num_imgs, c(0, 0.9)))+
   geom_smooth(method="lm")
 
-g3<-ggplot(train,aes(x=num_imgs,y=log(shares)))
-g3+geom_point(aes(color=factor(is_weekend)))+
-  labs(subtitle = "num_imgs vs log(shares)",color="is_weekend")+
+g4<-ggplot(train,aes(x=num_imgs,y=log(shares)))
+g4+geom_point()+
+  labs(subtitle = "num_imgs vs log(shares)")+
   scale_y_continuous(limits = quantile(log(train$shares), c(0, 0.9)))+
   scale_x_continuous(limits = quantile(train$num_imgs, c(0, 0.9)))+
   geom_smooth(method="lm")
@@ -143,8 +167,10 @@ plot(backward_summary$adjr2, xlab = "Size", ylab = "backward adjR2", type = "l")
 
 coef(backward, which.min(backward_summary$cp))
 coef(backward, which.max(backward_summary$adjr2))
+
 #get best subset of the specified size with min cp.
 sub <- backward_summary$which[which.min(backward_summary$cp), ]
+
 # Create test model matrix, predcition, test error
 test_model <- model.matrix(log(shares)~ ., data = test)
 model <- test_model[, sub]
@@ -152,6 +178,7 @@ yhat_back<-model %*% coef(backward, which.min(backward_summary$cp))
 RMSE_back<-sqrt(mean((test$shares - exp(yhat_back))^2))
 ```
 
+try to tune the backward selection with train function
 ```{r}
 cvcontrol <- trainControl(method="cv", number = 10)
 grid <- expand.grid(nvmax=1:54)
@@ -164,10 +191,10 @@ train_back <- train(log(shares) ~ .,
 train_back$results
 ```
 
-# lasso after log transformation
+lasso after log transformation was not good. It delete all the variables...?
 ```{r}
 library(glmnet)
-x<-as.matrix(train[,-c(54,55)])
+x<-as.matrix(train[,-54])
 y<-as.matrix(train[,54])
 lasso <- cv.glmnet(x=x, y=log(y), alpha = 1)
 lasso$lambda.1se
@@ -208,7 +235,7 @@ boostFit<-gbm(log(shares) ~ ., data=train,
               interaction.depth=1,
               n.trees=1000,
               n.minobsinnode=20)
-boostPred <- predict(boostFit, newdata = test[,-c(54,55)], n.trees = 1000)
+boostPred <- predict(boostFit, newdata = test[,-54], n.trees = 1000)
 RMSE_boost <- sqrt(mean((test$shares - exp(boostPred))^2))
 ```
 
