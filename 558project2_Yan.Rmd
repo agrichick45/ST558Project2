@@ -12,6 +12,14 @@ output:
 knitr::opts_chunk$set(echo = TRUE, warning=FALSE, message=FALSE)
 ```
 
+# Introduction
+[Online News Popularity Data Set](https://archive.ics.uci.edu/ml/datasets/Online+News+Popularity) summarizes a heterogeneous set of features about articles published by Mashable in a period of two years. The goal is to predict the number of shares in social networks (popularity). Here we first showed some summary statistics and plots about the data grouped by weekdays. Then we create several models to predict the response, shares in different channels. The performance of these models will be evaluated by RMSE. The model having the lowest RMSE will be selected as a winner. The methods of modeling including 
+1. linear regression model on full model after log transformation
+2. linear regression model after backward selection
+3. random forest model
+4. boosted tree model
+
+# Data preparation  
 Subset the data to work on the data channel of interest
 ```{r}
 library(tidyverse)
@@ -41,6 +49,7 @@ train <- training(index)
 test <- testing(index)
 ```
 
+# Data summaries  
 We summarize the train data of interest in tables grouped by weekdays, showing the pattern of shares in a week.
 ```{r}
 #create a new variable, weekday, to help with the creating plots.
@@ -52,24 +61,34 @@ summary<-train%>%group_by(weekday)%>%
   summarise(Avg=round(mean(shares),0),Sd=round(sd(shares),0),Median=median(shares),IQR=round(IQR(shares),0))
 knitr::kable(summary)
 ```
+
 We summarize the train data of interest in the plots below. The histogram of shares shows that it is not a normal distribution.  After log transformation, the distribution of log(share) is more close to a normal distribution.
 ```{r}
 #histogram of shares and log(shares).
 hist(train$shares)
 hist(log(train$shares))
 ```
-We use box plots to show the difference in shares and images between weekday and weekend.
+
+# Data plots  
+scatter plots between every two variables show the possible relationship and correlation among the variables in the training data set.
+```{r,fig1, fig.height = 20, fig.width = 20}
+train_1<-train%>%mutate(shares_log=log(shares))
+train_2<-train_1[,-c(25:32,54:55)]
+library(PerformanceAnalytics)
+names(train_2)
+# scatter plots between variables
+chart.Correlation(train_2[,c(1:9,46)], histogram = TRUE, method = "pearson")
+chart.Correlation(train_2[,c(10:19,46)], histogram = TRUE, method = "pearson")
+chart.Correlation(train_2[,c(20:29,46)], histogram = TRUE, method = "pearson")
+chart.Correlation(train_2[,c(30:39,46)], histogram = TRUE, method = "pearson")
+chart.Correlation(train_2[,c(40:45,46)], histogram = TRUE, method = "pearson")
+```
+
+We use box plots to show the difference in shares and num_images between weekdays and weekends.If the boxes of weekends are higher than the ones of weekdays, then articles be shared more often during weekends.
 ```{r}
-#use boxplot to show the difference in the train data.
-### try use y-axis on log-scale
-### add boxplot of num_images
 g1<-ggplot(train, aes(x=factor(is_weekend,labels=c("No", "Yes")),y=shares))
 g1+geom_boxplot(fill="white", width=0.5,lwd=1.5,color='black',outlier.shape = NA)+
    scale_y_continuous(limits = quantile(train$shares, c(0.1, 0.9)))+
-   labs(subtitle = "Shares on weekend",x="On weekend or not")
-
-g1_log<-ggplot(train, aes(x=factor(is_weekend,labels=c("No", "Yes")),y=log(shares)))
-g1_log+geom_boxplot(fill="white", width=0.5,lwd=1.5,color='black',outlier.shape = NA)+
    labs(subtitle = "Shares on weekend",x="On weekend or not")
 
 g2<-ggplot(train, aes(x=factor(is_weekend,labels=c("No", "Yes")),y=num_imgs))
@@ -78,7 +97,7 @@ g2+geom_boxplot(fill="white", width=0.5,lwd=1.5,color='black',outlier.shape = NA
    labs(subtitle = "number of images on weekend",x="On weekend or not")
 ```
 
-We use scatter plot to show the relationship between share and num_imgs in the train data.
+We can inspect the trend of shares as a function of num_images. If the points show an upward trend, then articles with more images tend to be shared more often. If we see a negative trend then articles with more images tend to be shared less often.
 ```{r}
 g3<-ggplot(train,aes(x=num_imgs,y=shares))
 g3+geom_point()+
@@ -99,15 +118,18 @@ train<-train%>%select(-weekday)
 
 ```
 
-Models
-# linear regression after log transformation
+# Models
+## linear regression after log transformation
+Transform the response with log, then fit a linear regression model with all the variables
 ```{r}
 lm<- lm(log(shares)~.,train)
 summary(lm)
-yhat_lm<-predict(lm,test[,-54])
+yhat_lm<-predict(lm,test)
 RMSE_lm<-sqrt(mean((test$shares - exp(yhat_lm))^2))
 ```
-# backward selection after log transformation
+
+## backward selection after log transformation
+Transform the response with log, then fit a linear regression model with the variables after backward selection
 ```{r}
 #backward selection after log transformation
 library(leaps)
@@ -135,62 +157,46 @@ RMSE_back<-sqrt(mean((test$shares - exp(yhat_back))^2))
 
 try to tune the backward selection with train function
 ```{r}
-cvcontrol <- trainControl(method="cv", number = 10)
-grid <- expand.grid(nvmax=1:54)
 train_back <- train(log(shares) ~ ., 
                    data=train,
                    method="leapBackward",
-                   trControl=cvcontrol,
-                   tuneLength = 50,
+                   trControl=trainControl(method="cv", number = 10),
+                   tuneGrid = expand.grid(nvmax=1:53),
                    preProc = c("center", "scale"))
 train_back$results
 ```
 
-lasso after log transformation was not good. It delete all the variables...?
+## boosted tree
+Boosting is a general approach that can be applied to many statistical learning methods for regression or classification.
+The trees in boosting are grown sequentially : each tree is grown using information from previously grown trees. Boosting does not involve bootstrap sampling; instead each tree is fit on a modified version of the original data set.
+Procedure (for regression trees):
+1.Initialize predictions as 0,
+2.Find the residuals (observed-predicted), call the set of them
+3.Fit a tree with splits (d+1 terminal nodes) treating the residuals as the response (which they are for the first fit)
+4.Update predictions
+5.Update residuals for new predictions and repeat B times
+Tune parameters must be chosen ¦Ë, B and d in the boosting tree model.
 ```{r}
-library(glmnet)
-x<-as.matrix(train[,-54])
-y<-as.matrix(train[,54])
-lasso <- cv.glmnet(x=x, y=log(y), alpha = 1)
-lasso$lambda.1se
-plot(lasso)
-
-#refit the model with the whole dataset
-lasso_all<- glmnet(x=x, y=log(y), 
-                   alpha = 1)
-predict(lasso_all, type = "coefficients", s = lasso$lambda.1se)
-```
-
-# boosted tree
-```{r}
-
 cvcontrol <- trainControl(method="repeatedcv", number = 10,
                           allowParallel=TRUE)
-train_bstTree <- train(log(shares) ~ ., 
-                   data=train,
-                   method="bstTree",
-                   
-                   trControl=cvcontrol)
-train_bstTree$results
-
-grid <- expand.grid(n.trees = c(1000,1500), interaction.depth=c(1:3), shrinkage=c(0.01,0.05,0.1), n.minobsinnode=c(20))
-capture.output(train.gbm <- train(log(shares) ~ ., 
+grid <- expand.grid(n.trees = c(1000,1500), 
+                    interaction.depth=c(1:3), 
+                    shrinkage=c(0.01,0.05,0.1), 
+                    n.minobsinnode=c(20))
+capture<-capture.output(train.gbm <- train(log(shares) ~ ., 
                    data=train,
                    method="gbm",
                    trControl=cvcontrol,
                    tuneGrid = grid))
-train.gbm$results
-train.gbm$bestTune
-
-#refit the train set with bestTune
-library(gbm)
-boostFit<-gbm(log(shares) ~ ., data=train,
-              distribution="gaussian",
-              shrinkage=0.01,
-              interaction.depth=1,
-              n.trees=1000,
-              n.minobsinnode=20)
-boostPred <- predict(boostFit, newdata = test[,-54], n.trees = 1000)
+train.gbm
+boostPred <- predict(train.gbm, newdata = test)
 RMSE_boost <- sqrt(mean((test$shares - exp(boostPred))^2))
+```
+
+# Comparison  
+Compare all the models based on RMSE, here the model with the lowest RMSE will be shown.
+```{r}
+comparison<-data.frame(RMSE_lm, RMSE_back, RMSE_boost)
+which.min(comparison)
 ```
 
