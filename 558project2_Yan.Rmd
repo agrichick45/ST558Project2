@@ -39,6 +39,7 @@ data_interest<-data_whole%>%
   select(-c(1,14:19,62))
 ```
 
+
 split the data into a training (70% of the data) and test set (30% of the data)
 ```{r}
 library(rsample)
@@ -49,8 +50,42 @@ train <- training(index)
 test <- testing(index)
 ```
 
+<<<<<<< HEAD
 # Data summaries  
+=======
+### Mandy's Graphical Summaries 
+
+
+This graphical function looks at the correlation of all of the different variables against each other. 
+```{r}
+library(corrplot)
+#drop values that are not important (the days of the week)
+newTrain<-train[ -c(25:31) ]
+#drop the predictor variables
+predictTrain<-newTrain[ -c(47) ]
+#Calculate the correlation Matrix and round it
+res <- cor(predictTrain)
+round(res, 2)
+
+#Plot the correlation matrix values by cluster
+corrplot(res, type = "upper", order = "hclust",
+         tl.col = "black", tl.cex = 0.5)
+```
+From the results of this spot, it appears that we likely have some clusters of colinearity? How the self referencing scores (min, max, and average) are very much related. We likely can remove or pull these excess variables?
+
+
+```{r}
+#Holding this code for later
+#palette = colorRampPalette(c("green", "white", "red")) (20)
+#heatmap(x = res, col = palette, symm = TRUE, cexRow=0.5, cexCol = 0.5)
+```
+
+
+summarize the train data in tables and plots
+=======
+>>>>>>> 94eb2a4de1413d5e2252bd568afd701b8ab4ba77
 We summarize the train data of interest in tables grouped by weekdays, showing the pattern of shares in a week.
+
 ```{r}
 #create a new variable, weekday, to help with the creating plots.
 train$weekday <- names(train[25:31])[apply(train[25:31],1, match, x = 1)]
