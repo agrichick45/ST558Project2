@@ -246,6 +246,9 @@ tree.trainRF
 yhat.rf<-predict(tree.trainRF, newdata = trimTest)
 yhat.rf<-as.data.frame(yhat.rf)
 yhat_rf<-mean((yhat.rf$yhat.rf-tree.test$shares)^2)
+
+importance(tree.trainRF)
+varImpPlot(tree.trainRF)
 ```
 ## backward selection after log transformation
 Transform the response with log, then fit a linear regression model with the variables after backward selection
