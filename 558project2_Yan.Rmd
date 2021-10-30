@@ -16,8 +16,9 @@ knitr::opts_chunk$set(echo = TRUE, warning=FALSE, message=FALSE)
 [Online News Popularity Data Set](https://archive.ics.uci.edu/ml/datasets/Online+News+Popularity) summarizes a heterogeneous set of features about articles published by Mashable in a period of two years. The goal is to predict the number of shares in social networks (popularity). Here we first showed some summary statistics and plots about the data grouped by weekdays. Then we create several models to predict the response, shares in different channels. The performance of these models will be evaluated by RMSE. The model having the lowest RMSE will be selected as a winner. The methods of modeling including 
 1. linear regression model on full model after log transformation
 2. linear regression model after backward selection
-3. random forest model
-4. boosted tree model
+3. bagged regression tree
+4. random forest model
+5. boosted tree model
 
 # Data preparation  
 Subset the data to work on the data channel of interest
@@ -49,7 +50,7 @@ train <- training(index)
 test <- testing(index)
 ```
 
-<<<<<<< HEAD
+
 # Data summaries  
 =======
 ### Mandy's Graphical Summaries 
@@ -72,19 +73,11 @@ corrplot(res, type = "upper", order = "hclust",
 ```
 From the results of this spot, it appears that we likely have some clusters of colinearity? How the self referencing scores (min, max, and average) are very much related. We likely can remove or pull these excess variables?
 
-
-```{r}
-#Holding this code for later
-#palette = colorRampPalette(c("green", "white", "red")) (20)
-#heatmap(x = res, col = palette, symm = TRUE, cexRow=0.5, cexCol = 0.5)
-```
+Yan: I think we can keep those variables in the data summary and plot part. Just remove them in some models.
 
 
-summarize the train data in tables and plots
-=======
->>>>>>> 94eb2a4de1413d5e2252bd568afd701b8ab4ba77
+
 We summarize the train data of interest in tables grouped by weekdays, showing the pattern of shares in a week.
-
 ```{r}
 #create a new variable, weekday, to help with the creating plots.
 train$weekday <- names(train[25:31])[apply(train[25:31],1, match, x = 1)]
@@ -104,20 +97,6 @@ hist(log(train$shares))
 ```
 
 # Data plots  
-scatter plots between every two variables show the possible relationship and correlation among the variables in the training data set.
-```{r,fig1, fig.height = 20, fig.width = 20}
-train_1<-train%>%mutate(shares_log=log(shares))
-train_2<-train_1[,-c(25:32,54:55)]
-library(PerformanceAnalytics)
-names(train_2)
-# scatter plots between variables
-chart.Correlation(train_2[,c(1:9,46)], histogram = TRUE, method = "pearson")
-chart.Correlation(train_2[,c(10:19,46)], histogram = TRUE, method = "pearson")
-chart.Correlation(train_2[,c(20:29,46)], histogram = TRUE, method = "pearson")
-chart.Correlation(train_2[,c(30:39,46)], histogram = TRUE, method = "pearson")
-chart.Correlation(train_2[,c(40:45,46)], histogram = TRUE, method = "pearson")
-```
-
 We use box plots to show the difference in shares and num_images between weekdays and weekends.If the boxes of weekends are higher than the ones of weekdays, then articles be shared more often during weekends.
 ```{r}
 g1<-ggplot(train, aes(x=factor(is_weekend,labels=c("No", "Yes")),y=shares))
@@ -131,7 +110,7 @@ g2+geom_boxplot(fill="white", width=0.5,lwd=1.5,color='black',outlier.shape = NA
    labs(subtitle = "number of images on weekend",x="On weekend or not")
 ```
 
-We can inspect the trend of shares as a function of num_images. If the points show an upward trend, then articles with more images tend to be shared more often. If we see a negative trend then articles with more images tend to be shared less often.
+We can inspect the trend of shares as a function of num_images. If the points show an upward trend, then articles with more images tend to be shared more often. If we see a negative trend then articles with more images tend to be shared less often. We can also observe the difference after the log transformation.
 ```{r}
 g3<-ggplot(train,aes(x=num_imgs,y=shares))
 g3+geom_point()+
@@ -153,6 +132,7 @@ train<-train%>%select(-weekday)
 ```
 
 # Models
+
 ## linear regression after log transformation
 Transform the response with log, then fit a linear regression model with all the variables
 ```{r}
@@ -162,12 +142,104 @@ yhat_lm<-predict(lm,test)
 RMSE_lm<-sqrt(mean((test$shares - exp(yhat_lm))^2))
 ```
 
+##Plot the lm Residuals
+```{r}
+par(mfrow=c(2,2))
+plot(lm)
+
+```
+Looking at our residuals, there seems to be skewing in both direction, indicating that the data, even after transformation, has extreme outliers in both directions.
+
+```{r}
+#look at the data for multicolinearity
+lm2<- lm(log(shares)~.,newTrain)
+summary(lm2)
+#yhat_lm2<-predict(lm2,test)
+#RMSE_lm2<-sqrt(mean((test$shares - exp(yhat_lm))^2))
+
+
+library(mctest)
+omcdiag(lm2)
+imcdiag(lm2)
+```
+Looking at all of the VIF values, we are going to start by removing all of the LDA Values, and the positive word rate to remove all "infinite" VIF values.
+
+```{r}
+toRemove<-c( "LDA_01", "LDA_02", "LDA_03", "LDA_04", "rate_positive_words")
+trimTrain <- newTrain[, ! names(newTrain) %in% toRemove, drop = F]
+
+#Repeat linear Model process
+lm3<- lm(log(shares)~., trimTrain)
+omcdiag(lm3)
+imcdiag(lm3)
+
+```
+This improves the model multicolinearity, but we are still left with some. We then pare down and select those models with the next highest VIF removed one at a time, until all values are below 5. 
+
+```{r}
+toRemove<-c("self_reference_avg_sharess", "kw_avg_min", "n_unique_tokens", "rate_negative_words", "kw_avg_avg", "n_non_stop_words", "global_sentiment_polarity", "avg_negative_polarity", "kw_max_max")
+trimTrain <- trimTrain[, ! names(trimTrain) %in% toRemove, drop = F]
+
+#Repeat linear Model process
+lm4<- lm(log(shares)~., trimTrain)
+omcdiag(lm4)
+imcdiag(lm4)
+
+```
+
+After removing 15 more variables for obvious multicolinearity via VIF (>5), we need to replot the correlation matrix, which shows a much lower clustering rate of high correlations.
+```{r}
+#Remove the predictor
+train_cor<-trimTrain[1:31]
+res <- cor(train_cor)
+palette = colorRampPalette(c("green", "white", "red")) (20)
+heatmap(x = res, col = palette, symm = TRUE, cexRow=0.5, cexCol = 0.5)
+```
+
+## Random Forests
+The manual dimensionality reduction was necessary to have the processing speeds to handle the random forests model. 
+
+```{r}
+#trim the testing data
+newTest<-test[ -c(25:31) ]
+toRemove<-c( "LDA_01", "LDA_02", "LDA_03", "LDA_04", "rate_positive_words", "self_reference_avg_sharess", "kw_avg_min", "n_unique_tokens", "rate_negative_words", "kw_avg_avg", "n_non_stop_words", "global_sentiment_polarity", "avg_negative_polarity", "kw_max_max")
+
+trimTest <- newTest[, ! names(newTest) %in% toRemove, drop = F]
+```
+
+```{r}
+library(randomForest)
+#single bagged model
+tree.train<-randomForest(shares~., data=trimTrain, mtry=32, importance=TRUE)
+tree.train
+
+#single bagged regression tree error prediction
+tree.test<-trimTest["shares"]
+yhat.bag<-predict(tree.train, newdata=trimTest)
+yhat.bag<-as.data.frame(yhat.bag)
+yhat_bag<-mean((yhat.bag$yhat.bag-tree.test$shares)^2)
+RMSE_bag<-sqrt(yhat_bag)
+
+#random forests model
+tree.trainRF<-randomForest(shares~., data=trimTrain, mtry=12, importance=TRUE)
+tree.trainRF
+
+#random forest error prediction
+yhat.rf<-predict(tree.trainRF, newdata = trimTest)
+yhat.rf<-as.data.frame(yhat.rf)
+yhat_rf<-mean((yhat.rf$yhat.rf-tree.test$shares)^2)
+RMSE_rf<-sqrt(yhat_rf)
+
+importance(tree.trainRF)
+varImpPlot(tree.trainRF)
+```
+
 ## backward selection after log transformation
 Transform the response with log, then fit a linear regression model with the variables after backward selection
 ```{r}
 #backward selection after log transformation
 library(leaps)
-backward<- regsubsets(log(shares)~., train, nvmax = 53, method = "backward")
+backward<- regsubsets(log(shares)~., trimTrain, nvmax = 31, method = "backward")
 backward_summary<-summary(backward)
 
 #backward_summary[["which"]][size, ]
@@ -183,7 +255,7 @@ coef(backward, which.max(backward_summary$adjr2))
 sub <- backward_summary$which[which.min(backward_summary$cp), ]
 
 # Create test model matrix, predcition, test error
-test_model <- model.matrix(log(shares)~ ., data = test)
+test_model <- model.matrix(log(shares)~ ., data = trimTest)
 model <- test_model[, sub]
 yhat_back<-model %*% coef(backward, which.min(backward_summary$cp))
 RMSE_back<-sqrt(mean((test$shares - exp(yhat_back))^2))
@@ -199,6 +271,7 @@ Procedure (for regression trees):
 4.Update predictions
 5.Update residuals for new predictions and repeat B times
 Tune parameters must be chosen shrinkage, B and d in the boosting tree model.
+
 ```{r}
 cvcontrol <- trainControl(method="repeatedcv", number = 10,
                           allowParallel=TRUE)
@@ -219,7 +292,7 @@ RMSE_boost <- sqrt(mean((test$shares - exp(boostPred))^2))
 # Comparison  
 Compare all the models based on RMSE, here the model with the lowest RMSE will be shown.
 ```{r}
-comparison<-data.frame(RMSE_lm, RMSE_back, RMSE_boost)
+comparison<-data.frame(RMSE_lm, RMSE_back, RMSE_boost, RMSE_rf, RMSE_bag)
 which.min(comparison)
 ```
 
