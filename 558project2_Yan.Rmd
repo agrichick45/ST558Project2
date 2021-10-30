@@ -39,7 +39,6 @@ data_interest<-data_whole%>%
   select(-c(1,14:19,62))
 ```
 
-
 split the data into a training (70% of the data) and test set (30% of the data)
 ```{r}
 library(rsample)
@@ -190,17 +189,6 @@ yhat_back<-model %*% coef(backward, which.min(backward_summary$cp))
 RMSE_back<-sqrt(mean((test$shares - exp(yhat_back))^2))
 ```
 
-try to tune the backward selection with train function
-```{r}
-train_back <- train(log(shares) ~ ., 
-                   data=train,
-                   method="leapBackward",
-                   trControl=trainControl(method="cv", number = 10),
-                   tuneGrid = expand.grid(nvmax=1:53),
-                   preProc = c("center", "scale"))
-train_back$results
-```
-
 ## boosted tree
 Boosting is a general approach that can be applied to many statistical learning methods for regression or classification.
 The trees in boosting are grown sequentially : each tree is grown using information from previously grown trees. Boosting does not involve bootstrap sampling; instead each tree is fit on a modified version of the original data set.
@@ -210,7 +198,7 @@ Procedure (for regression trees):
 3.Fit a tree with splits (d+1 terminal nodes) treating the residuals as the response (which they are for the first fit)
 4.Update predictions
 5.Update residuals for new predictions and repeat B times
-Tune parameters must be chosen ¦Ë, B and d in the boosting tree model.
+Tune parameters must be chosen shrinkage, B and d in the boosting tree model.
 ```{r}
 cvcontrol <- trainControl(method="repeatedcv", number = 10,
                           allowParallel=TRUE)
