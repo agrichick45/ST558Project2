@@ -74,11 +74,8 @@ corrplot(res, type = "upper", order = "hclust",
 From the results of this spot, it appears that we likely have some clusters of colinearity? How the self referencing scores (min, max, and average) are very much related. We likely can remove or pull these excess variables?
 
 
-```{r}
-#Holding this code for later
-#palette = colorRampPalette(c("green", "white", "red")) (20)
-#heatmap(x = res, col = palette, symm = TRUE, cexRow=0.5, cexCol = 0.5)
-```
+
+
 
 
 summarize the train data in tables and plots
@@ -154,6 +151,7 @@ train<-train%>%select(-weekday)
 ```
 
 # Models
+
 ## linear regression after log transformation
 Transform the response with log, then fit a linear regression model with all the variables
 ```{r}
@@ -163,6 +161,92 @@ yhat_lm<-predict(lm,test)
 RMSE_lm<-sqrt(mean((test$shares - exp(yhat_lm))^2))
 ```
 
+##Plot the lm Residuals
+```{r}
+par(mfrow=c(2,2))
+plot(lm)
+
+```
+Looking at our residuals, there seems to be skewing in both direction, indicating that the data, even after transformation, has extreme outliers in both directions.
+
+```{r}
+#look at the data for multicolinearity
+lm2<- lm(log(shares)~.,newTrain)
+summary(lm2)
+#yhat_lm2<-predict(lm2,test)
+#RMSE_lm2<-sqrt(mean((test$shares - exp(yhat_lm))^2))
+
+
+library(mctest)
+omcdiag(lm2)
+imcdiag(lm2)
+```
+Looking at all of the VIF values, we are going to start by removing all of the LDA Values, and the positive word rate to remove all "infinite" VIF values.
+
+```{r}
+toRemove<-c( "LDA_01", "LDA_02", "LDA_03", "LDA_04", "rate_positive_words")
+trimTrain <- newTrain[, ! names(newTrain) %in% toRemove, drop = F]
+
+#Repeat linear Model process
+lm3<- lm(log(shares)~., trimTrain)
+omcdiag(lm3)
+imcdiag(lm3)
+
+```
+This improves the model multicolinearity, but we are still left with some. We then pare down and select those models with the next highest VIF removed one at a time, until all values are below 5. 
+
+```{r}
+toRemove<-c("self_reference_avg_sharess", "kw_avg_min", "n_unique_tokens", "rate_negative_words", "kw_avg_avg", "n_non_stop_words", "global_sentiment_polarity", "avg_negative_polarity", "kw_max_max")
+trimTrain <- trimTrain[, ! names(trimTrain) %in% toRemove, drop = F]
+
+#Repeat linear Model process
+lm4<- lm(log(shares)~., trimTrain)
+omcdiag(lm4)
+imcdiag(lm4)
+
+```
+
+After removing 15 more variables for obvious multicolinearity via VIF (>5), we need to replot the correlation matrix, which shows a much lower clustering rate of high correlations.
+```{r}
+#Remove the predictor
+train<-trimTrain[1:31]
+res <- cor(train)
+palette = colorRampPalette(c("green", "white", "red")) (20)
+heatmap(x = res, col = palette, symm = TRUE, cexRow=0.5, cexCol = 0.5)
+```
+
+## Random Forests
+The manual dimensionality reduction was necessary to have the processing speeds to handle the random forests model. 
+
+```{r}
+#trim the testing data
+newTest<-test[ -c(25:31) ]
+toRemove<-c( "LDA_01", "LDA_02", "LDA_03", "LDA_04", "rate_positive_words", "self_reference_avg_sharess", "kw_avg_min", "n_unique_tokens", "rate_negative_words", "kw_avg_avg", "n_non_stop_words", "global_sentiment_polarity", "avg_negative_polarity", "kw_max_max")
+
+trimTest <- newTest[, ! names(newTest) %in% toRemove, drop = F]
+```
+
+```{r}
+library(randomForest)
+#single bagged model
+tree.train<-randomForest(shares~., data=trimTrain, mtry=32, importance=TRUE)
+tree.train
+
+#single bagged regression tree error prediction
+tree.test<-trimTest["shares"]
+yhat.bag<-predict(tree.train, newdata=trimTest)
+yhat.bag<-as.data.frame(yhat.bag)
+yhat_bag<-mean((yhat.bag$yhat.bag-tree.test$shares)^2)
+
+#random forests model
+tree.trainRF<-randomForest(shares~., data=trimTrain, mtry=12, importance=TRUE)
+tree.trainRF
+
+#random forest error prediction
+yhat.rf<-predict(tree.trainRF, newdata = trimTest)
+yhat.rf<-as.data.frame(yhat.rf)
+yhat_rf<-mean((yhat.rf$yhat.rf-tree.test$shares)^2)
+```
 ## backward selection after log transformation
 Transform the response with log, then fit a linear regression model with the variables after backward selection
 ```{r}
@@ -210,7 +294,7 @@ Procedure (for regression trees):
 3.Fit a tree with splits (d+1 terminal nodes) treating the residuals as the response (which they are for the first fit)
 4.Update predictions
 5.Update residuals for new predictions and repeat B times
-Tune parameters must be chosen ¦Ë, B and d in the boosting tree model.
+Tune parameters must be chosen ??, B and d in the boosting tree model.
 ```{r}
 cvcontrol <- trainControl(method="repeatedcv", number = 10,
                           allowParallel=TRUE)
