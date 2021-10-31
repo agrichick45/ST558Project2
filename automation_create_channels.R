@@ -2,8 +2,8 @@
 # date: 10/30/2021
 # purpose: Render 558project2.Rmd as several .md files for repo.
 
-
-channels<-c("lifestyle","entertainment","bus","tech","lifestyle","world","socmed")
+library(tidyverse)
+channels<-c("entertainment","bus","tech","lifestyle","world","socmed")
 output_file<- paste0(channels,".md")
 params=lapply(channels,FUN=function(x){list(team=x)})
 

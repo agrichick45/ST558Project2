@@ -17,18 +17,20 @@ use_git_config(user.name="Mandy Liesch", user.email="amliesch@ncsu.edu")
 # Introduction
 [Online News Popularity Data Set](https://archive.ics.uci.edu/ml/datasets/Online+News+Popularity) summarizes a heterogeneous set of features about articles published by Mashable in a period of two years. The goal is to predict the number of shares in social networks (popularity). Here we first showed some summary statistics and plots about the data grouped by weekdays. Then we create several models to predict the response, shares in different channels. The performance of these models will be evaluated by RMSE. The model having the lowest RMSE will be selected as a winner. The methods of modeling include: 
 
-1. regression tree  
-2. linear regression model on full model after log transformation   
-3. linear regression model with day of the week removed
-3. linear regression model with a subset of variables removed for multicolinearity  
-4. a second linear model with another subset of variables for multicolinearity  
-5. bagged regression tree
-6. random forest model
-7. linear regression model after backward selection
-8. boosted tree model
+1. Regression Tree  
+2. Log Transformed Full Linear Regression Model  
+3. Linear Regression Model Without Day of the Week  
+3. Subset Linear Regression Model #1  
+4. Subset Linear Regression Model #2   
+5. Backward Selection Linear Regression  
+6. Bagged Regression Tree  
+7. Random Forest Model  
+8. Boosted Tree Model  
 
 # Data preparation  
-Subset the data to work on the data channel of interest
+
+## Subset Data by Channel  
+
 ```{r}
 library(tidyverse)
 
@@ -39,15 +41,18 @@ data_whole$channel <- names(data_whole[14:19])[apply(data_whole[14:19],1, match,
 data_whole$channel <-sub("data_channel_is_", "", data_whole$channel)
 
 #Subset the data to work on the data channel of interest
-channel_interest = "lifestyle"
+#channel_interest = params[[1]]$team
 
+#Get the important data
 data_interest<-data_whole%>%
-  filter(channel==channel_interest)%>%
+  filter(channel==x[[2]]$team)%>%
   select(-c(1,14:19,62))
 ```
 
-split the data into a training (70% of the data) and test set (30% of the data)
-```{r}
+## Establish Training Data  
+
+Split the data into a training (70% of the data) and test set (30% of the data)
+```{r, message=FALSE, warning=FALSE}
 library(caret)
 library(rsample)
 set.seed(14)
@@ -58,10 +63,11 @@ test <- testing(index)
 ```
 
 
-# Data summaries  
+# Data Summaries  
 ## Correlation Plots
 
-This graphical function looks at the correlation of all of the different variables against each other. 
+This graphical function looks at the correlation of all of the different variables against each other.  
+
 ```{r}
 library(corrplot)
 #drop values that are not important (the days of the week)
@@ -71,17 +77,17 @@ lmNewTest<-test[ -c(25:31) ]
 predictTrain<-newTrain[ -c(47) ]
 #Calculate the correlation Matrix and round it
 res <- cor(predictTrain)
-round(res, 2)
 
 #Plot the correlation matrix values by cluster
 corrplot(res, type = "upper", order = "hclust",
          tl.col = "black", tl.cex = 0.5)
 ```
-From the results of this spot, it appears that we likely have some clusters of colinearity.
+  
+From the results of this spot, it appears that we likely have some clusters of colinearity.  
 
-We summarize the train data of interest in tables grouped by weekdays, showing the pattern of shares in a week.
+## Table Summary  
+We summarize the train data of interest in tables grouped by weekdays, showing the pattern of shares in a week.  
 
-## Table Summary
 ```{r}
 #create a new variable, weekday, to help with the creating plots.
 train$weekday <- names(train[25:31])[apply(train[25:31],1, match, x = 1)]
@@ -100,8 +106,11 @@ hist(train$shares)
 hist(log(train$shares))
 ```
 
-## Data plots  
-We use box plots to show the difference in shares and num_images between weekdays and weekends.If the boxes of weekends are higher than the ones of weekdays, then articles be shared more often during weekends.
+## Data Plots  
+### Box Plots  
+
+We use box plots to show the difference in shares and num_images between weekdays and weekends.If the boxes of weekends are higher than the ones of weekdays, then articles be shared more often during weekends.  
+
 ```{r}
 g1<-ggplot(train, aes(x=factor(is_weekend,labels=c("No", "Yes")),y=shares))
 g1+geom_boxplot(fill="white", width=0.5,lwd=1.5,color='black',outlier.shape = NA)+
@@ -114,7 +123,10 @@ g2+geom_boxplot(fill="white", width=0.5,lwd=1.5,color='black',outlier.shape = NA
    labs(subtitle = "number of images on weekend",x="On weekend or not")
 ```
 
-We can inspect the trend of shares as a function of num_images. If the points show an upward trend, then articles with more images tend to be shared more often. If we see a negative trend then articles with more images tend to be shared less often. We can also observe the difference after the log transformation.
+### Linear Model  
+
+We can inspect the trend of shares as a function of num_images. If the points show an upward trend, then articles with more images tend to be shared more often. If we see a negative trend then articles with more images tend to be shared less often. We can also observe the difference after the log transformation.  
+
 ```{r}
 g3<-ggplot(train,aes(x=num_imgs,y=shares))
 g3+geom_point()+
@@ -135,8 +147,8 @@ train<-train%>%select(-weekday)
 
 ```
 
-# Models
-## Regression Tree
+# Models  
+## Regression Tree  
 
 Classification trees are machine learning algorithms that have several benefits, including the ease of operation, and less pre-processing. Data does not require normalization, scaling, and removal of missing values. The results are usually easy to explain, and stakeholders usually can understand them. A regression tree is a tree that uses numerical values to predict the nodes and tree branches.  Despite all of the benefits, the Decision Tree algorithm can't be used for regression and predicting continuous values, it also does not transfer well to other datasets. 
 
@@ -155,20 +167,20 @@ meanRegTree<-mean((yhat.regTree$yhat.regTree-yhat.test$shares)^2)
 RMSE_regTree<-sqrt(meanRegTree)
 
 ```
-The initial regression tree shows four significant variables: num_videos, LDA_00, kw_avg_avg, and n_unique_tokens, with 5 terminal nodes. 
+  
+These results can vary widely depending on the datasets. 
 
-This data shows that anything with over 11.5 video shares had a very high value of shares. If there was less than 11.5 videos, and equally high share rate can be gained for this data subset having and LDA_00 <0.92, a kw_avg_avg greater than 6724, and more than 0.6 unique tokens. 
+## Linear Models  
+Linear models are very valuable and powerful tools, and are very versatile, and can be applied to many situations. Multiple regression examines the relationship between several independent variables and one dependent variable (in this case, total Shares). Regression models give users the ability to determine the relative influence of one or more predictor variables to the predictor, and it also allows users to identify outliers, or anomalies. The main disadvantages have to do with the input quality of data. Input that is incomplete may lead to wrong conclusions. It also assumes that data is independent, which is not always the case.   
+  
+There are several different types of linear models. In this project, we use multiple different multiple regression values that were log transformed, representing the full dataset, and several partial subsets with multiple variables removed at different points for multicolinearity reasons.  
+  
+There are also several different types of variable selection, including forward, backward, and stepwise, which user predefined criteria set the entry and/or exit criteria of the models. Backwards selection starts with a full model, and then removes variables that are least significant one at a time, until the model criteria defined by the user are hit. Forward regression does the opposite, and is not represented here.  
 
-## Linear Models
-Linear models are very valuable and powerful tools, and are very versatile, and can be applied to many situations. Multiple regression examines the relationship between several independent variables and one dependent variable (in this case, total Shares). Regression models give users the ability to determine the relative influence of one or more predictor variables to the predictor, and it also allows users to identify outliers, or anomalies. The main disadvantages have to do with the input quality of data. Input that is incomplete may lead to wrong conclusions. It also assumes that data is independent, which is not always the case. 
+### Linear Regression After Log Transformation  
 
-There are several different types of linear models. In this project, we use multiple different multiple regression values that were log transformed, representing the full dataset, and several partial subsets with multiple variables removed at different points for multicolinearity reasons.
+Transform the response with log, then fit a linear regression model with all the variables.  Then calculate the RMSE of the model. 
 
-There are also several different types of variable selection, including forward, backward, and stepwise, which user predefined criteria set the entry and/or exit criteria of the models. Backwards selection starts with a full model, and then removes variables that are least significant one at a time, until the model criteria defined by the user are hit. Forward regression does the opposite, and is not represented here.
-
-
-### linear regression after log transformation
-Transform the response with log, then fit a linear regression model with all the variables
 ```{r}
 lm<- lm(log(shares)~.,train)
 summary(lm)
@@ -182,6 +194,7 @@ par(mfrow=c(2,2))
 plot(lm)
 
 ```
+    
 Looking at our residuals, there seems to be skewing in both direction, indicating that the data, even after transformation, has extreme outliers in both directions.
 
 ### Model Removing the Day Variable
@@ -189,19 +202,20 @@ Looking at our residuals, there seems to be skewing in both direction, indicatin
 #look at the data for multicolinearity
 lmNewTest<-test[ -c(25:31) ]
 lm2<- lm(log(shares)~.,newTrain)
-summary(lm2)
 yhat_lm2<-predict(lm2,lmNewTest)
 RMSE_lm2<-sqrt(mean((lmNewTest$shares - exp(yhat_lm2))^2))
-
 
 library(mctest)
 omcdiag(lm2)
 imcdiag(lm2)
 ```
-Looking at all of the VIF values, we are going to start by removing all of the LDA Values, and the positive word rate to remove all "infinite" VIF values.
 
-### First multicolinearity trim
-The mctest package was used to calculate the VIF values of multicolinearity.
+Looking at all of the VIF values, we are going to start by removing all of the LDA Values, and the positive word rate to remove all "infinite" VIF values.  
+
+### First Multicolinearity Trim  
+
+The mctest package was used to calculate the VIF values of multicolinearity.  
+
 ```{r}
 toRemove<-c( "LDA_01", "LDA_02", "LDA_03", "LDA_04", "rate_positive_words")
 trimTrain1 <- newTrain[, ! names(newTrain) %in% toRemove, drop = F]
@@ -212,13 +226,13 @@ lm3<- lm(log(shares)~., trimTrain1)
 yhat_lm3<-predict(lm3,lmNewTest3)
 RMSE_lm3<-sqrt(mean((lmNewTest3$shares - exp(yhat_lm3))^2))
 
-omcdiag(lm3)
 imcdiag(lm3)
 
 ```
+  
 This improves the model multicolinearity, but we are still left with some. We then pare down and select those models with the next highest VIF removed one at a time, until all values are below 5. 
 
-### Second Mulitcolinearity Trim
+### Second Mulitcolinearity Trim  
 
 ```{r}
 toRemove<-c("self_reference_avg_sharess", "kw_avg_min", "n_unique_tokens", "rate_negative_words", "kw_avg_avg", "n_non_stop_words", "global_sentiment_polarity", "avg_negative_polarity", "kw_max_max")
@@ -226,12 +240,14 @@ trimTrain2 <- trimTrain1[, ! names(trimTrain1) %in% toRemove, drop = F]
 
 #Repeat linear Model process
 lm4<- lm(log(shares)~., trimTrain2)
-omcdiag(lm4)
+
 imcdiag(lm4)
 
 ```
 
-After removing 15 more variables for obvious multicolinearity via VIF (>5), we need to replot the correlation matrix, which shows a much lower clustering rate of high correlations.
+After removing 15 more variables for obvious multicolinearity via VIF (>5), we need to replot the correlation matrix, which shows a much lower clustering rate of high correlations.  
+
+### Replot Correlation
 ```{r}
 #Remove the predictor
 train_cor<-trimTrain2[1:31]
@@ -239,25 +255,24 @@ res <- cor(train_cor)
 palette = colorRampPalette(c("green", "white", "red")) (20)
 heatmap(x = res, col = palette, symm = TRUE, cexRow=0.5, cexCol = 0.5)
 ```
+  
+The new heatmap appears to have less prominent clustering values. 
 
-The new heatmap appears to have less prominenet clustering values. 
-
+### Final Model Fit Prediction
 ```{r}
 #trim the testing data
 newTest1<-test[ -c(25:31) ]
 toRemove<-c( "LDA_01", "LDA_02", "LDA_03", "LDA_04", "rate_positive_words", "self_reference_avg_sharess", "kw_avg_min", "n_unique_tokens", "rate_negative_words", "kw_avg_avg", "n_non_stop_words", "global_sentiment_polarity", "avg_negative_polarity", "kw_max_max")
 
 trimTest4 <- newTest1[, ! names(newTest1) %in% toRemove, drop = F]
-```
 
-```{r}
 yhat_lm4<-predict(lm4,trimTest4)
 RMSE_lm4<-sqrt(mean((trimTest4$shares - exp(yhat_lm4))^2))
 ```
 
+### Backward Regression Selection  
 
-### backward selection after log transformation
-Transform the response with log, then fit a linear regression model with the variables after backward selection
+Transform the response with log, then fit a linear regression model with the variables after backward selection.  
 ```{r}
 #backward selection after log transformation
 library(leaps)
@@ -265,7 +280,7 @@ backward<- regsubsets(log(shares)~., trimTrain1, nvmax = 31, method = "backward"
 backward_summary<-summary(backward)
 
 #backward_summary[["which"]][size, ]
-par(mfrow=c(2,3))
+par(mfrow=c(1,3))
 plot(backward_summary$cp, xlab = "Size", ylab = "backward Cp", type = "l")
 plot(backward_summary$bic, xlab = "Size", ylab = "backward bic", type = "l")
 plot(backward_summary$adjr2, xlab = "Size", ylab = "backward adjR2", type = "l")
@@ -283,10 +298,11 @@ yhat_back<-model %*% coef(backward, which.min(backward_summary$cp))
 RMSE_back<-sqrt(mean((test$shares - exp(yhat_back))^2))
 ```
 
-## Random Forests
-As previously mentioned in the regression trees section, the random forest builds an entire forest of these trees,  and merges them together to get a more accurate and stable predictions than one off trees. It is usually trained using the bagging method. Unlike regression trees, which are prone to overfitting, only a random subset of the features is taken into consideration by the algorithm for splitting a node (used 1/3 here). This builds in additional error and makes a more robust prediction.
+## Random Forests  
 
-The manual dimensionality reduction was necessary to have the processing speeds to handle the random forests model. 
+As previously mentioned in the regression trees section, the random forest builds an entire forest of these trees,  and merges them together to get a more accurate and stable predictions than one off trees. It is usually trained using the bagging method. Unlike regression trees, which are prone to overfitting, only a random subset of the features is taken into consideration by the algorithm for splitting a node (used CV to find the perfect amount of variables to use). This builds in additional error and makes a more robust prediction.
+
+The manual dimensional reduction was necessary to have the processing speeds to handle the random forests model. 
 
 ```{r}
 library(randomForest)
@@ -311,20 +327,22 @@ yhat.rf<-as.data.frame(yhat.rf)
 yhat_rf<-mean((yhat.rf$yhat.rf-tree.test$shares)^2)
 RMSE_rfTrimmed<-sqrt(yhat_rf)
 
-importance(tree.trainRF)
 varImpPlot(tree.trainRF)
 ```
 
-## Boosted tree
+## Boosted Tree  
+
 Boosting is a general approach that can be applied to many statistical learning methods for regression or classification.
 The trees in boosting are grown sequentially : each tree is grown using information from previously grown trees. Boosting does not involve bootstrap sampling; instead each tree is fit on a modified version of the original data set.
-Procedure (for regression trees):
-1.Initialize predictions as 0,
-2.Find the residuals (observed-predicted), call the set of them
-3.Fit a tree with splits (d+1 terminal nodes) treating the residuals as the response (which they are for the first fit)
-4.Update predictions
-5.Update residuals for new predictions and repeat B times
-Tune parameters must be chosen shrinkage, B and d in the boosting tree model.
+  
+Procedure (for regression trees):  
+1.Initialize predictions as 0,  
+2.Find the residuals (observed-predicted), call the set of them  
+3.Fit a tree with splits (d+1 terminal nodes) treating the residuals as the response (which they are for the first fit)  
+4.Update predictions  
+5.Update residuals for new predictions and repeat B times  
+
+Tune parameters must be chosen shrinkage, B and d in the boosting tree model.  
 
 ```{r}
 cvcontrol <- trainControl(method="repeatedcv", number = 10,
