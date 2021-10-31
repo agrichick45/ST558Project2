@@ -292,7 +292,7 @@ RMSE_boost <- sqrt(mean((test$shares - exp(boostPred))^2))
 # Comparison  
 Compare all the models based on RMSE, here the model with the lowest RMSE will be shown.
 ```{r}
-comparison<-data.frame(RMSE_lm, RMSE_back, RMSE_boost, RMSE_rf, RMSE_bag)
+comparison<-data.frame(RMSE_lm, RMSE_back, RMSE_bag, RMSE_rf, RMSE_boost)
 which.min(comparison)
 ```
 
