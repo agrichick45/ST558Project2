@@ -1,24 +1,40 @@
 ---
-title: "project2_Yan"
-author: "Yan Liu"
-date: "2021/10/21"
-output: 
-   github_document:
-    toc: true
-    html_preview: false
+title: "ST 558 Project 2"
+author: "Yan Liu & Mandy Liesch"
+
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning=FALSE, message=FALSE)
 ```
 
+```{r}
+library(rmarkdown)
+library(usethis)
+use_git_config(user.name="Mandy Liesch", user.email="amliesch@ncsu.edu")
+```
+
+```{r, eval=FALSE, echo=FALSE}
+#code to create the rendering. this chunk is put into the code to knit and
+#render the function.
+rmarkdown::render("558project2_Yan.Rmd", 
+                  output_format = "github_document", 
+                  output_options = list(toc=TRUE, toc_depth = 3, html_preview=FALSE), 
+                  output_file = "ReadMe.md")
+```
+
 # Introduction
-[Online News Popularity Data Set](https://archive.ics.uci.edu/ml/datasets/Online+News+Popularity) summarizes a heterogeneous set of features about articles published by Mashable in a period of two years. The goal is to predict the number of shares in social networks (popularity). Here we first showed some summary statistics and plots about the data grouped by weekdays. Then we create several models to predict the response, shares in different channels. The performance of these models will be evaluated by RMSE. The model having the lowest RMSE will be selected as a winner. The methods of modeling including 
-1. linear regression model on full model after log transformation
-2. linear regression model after backward selection
-3. bagged regression tree
-4. random forest model
-5. boosted tree model
+[Online News Popularity Data Set](https://archive.ics.uci.edu/ml/datasets/Online+News+Popularity) summarizes a heterogeneous set of features about articles published by Mashable in a period of two years. The goal is to predict the number of shares in social networks (popularity). Here we first showed some summary statistics and plots about the data grouped by weekdays. Then we create several models to predict the response, shares in different channels. The performance of these models will be evaluated by RMSE. The model having the lowest RMSE will be selected as a winner. The methods of modeling include: 
+
+1. regression tree  
+2. linear regression model on full model after log transformation   
+3. linear regression model with day of the week removed
+3. linear regression model with a subset of variables removed for multicolinearity  
+4. a second linear model with another subset of variables for multicolinearity  
+5. bagged regression tree
+6. random forest model
+7. linear regression model after backward selection
+8. boosted tree model
 
 # Data preparation  
 Subset the data to work on the data channel of interest
@@ -52,15 +68,14 @@ test <- testing(index)
 
 
 # Data summaries  
-=======
-### Mandy's Graphical Summaries 
-
+## Correlation Plots
 
 This graphical function looks at the correlation of all of the different variables against each other. 
 ```{r}
 library(corrplot)
 #drop values that are not important (the days of the week)
 newTrain<-train[ -c(25:31) ]
+lmNewTest<-test[ -c(25:31) ]
 #drop the predictor variables
 predictTrain<-newTrain[ -c(47) ]
 #Calculate the correlation Matrix and round it
@@ -71,13 +86,11 @@ round(res, 2)
 corrplot(res, type = "upper", order = "hclust",
          tl.col = "black", tl.cex = 0.5)
 ```
-From the results of this spot, it appears that we likely have some clusters of colinearity? How the self referencing scores (min, max, and average) are very much related. We likely can remove or pull these excess variables?
-
-Yan: I think we can keep those variables in the data summary and plot part. Just remove them in some models.
-
-
+From the results of this spot, it appears that we likely have some clusters of colinearity.
 
 We summarize the train data of interest in tables grouped by weekdays, showing the pattern of shares in a week.
+
+## Table Summary
 ```{r}
 #create a new variable, weekday, to help with the creating plots.
 train$weekday <- names(train[25:31])[apply(train[25:31],1, match, x = 1)]
@@ -96,7 +109,7 @@ hist(train$shares)
 hist(log(train$shares))
 ```
 
-# Data plots  
+## Data plots  
 We use box plots to show the difference in shares and num_images between weekdays and weekends.If the boxes of weekends are higher than the ones of weekdays, then articles be shared more often during weekends.
 ```{r}
 g1<-ggplot(train, aes(x=factor(is_weekend,labels=c("No", "Yes")),y=shares))
@@ -132,8 +145,38 @@ train<-train%>%select(-weekday)
 ```
 
 # Models
+## Regression Tree
 
-## linear regression after log transformation
+Classification trees are machine learning algorithms that have several benefits, including the ease of operation, and less pre-processing. Data does not require normalization, scaling, and removal of missing values. The results are usually easy to explain, and stakeholders usually can understand them. A regression tree is a tree that uses numerical values to predict the nodes and tree branches.  Despite all of the benefits, the Decision Tree algorithm can't be used for regression and predicting continuous values, it also does not transfer well to other datasets. 
+
+```{r}
+library(tree)
+tree.news<-tree(shares~., data=train)
+summary(tree.news)
+plot(tree.news)
+text(tree.news, pretty=0)
+
+yhat.regTree<- predict(tree.news, newdata = test)
+yhat.test<-test["shares"]
+yhat.regTree<-as.data.frame(yhat.regTree)
+meanRegTree<-mean((yhat.regTree$yhat.regTree-yhat.test$shares)^2)
+
+RMSE_regTree<-sqrt(meanRegTree)
+
+```
+The initial regression tree shows four significant variables: num_videos, LDA_00, kw_avg_avg, and n_unique_tokens, with 5 terminal nodes. 
+
+This data shows that anything with over 11.5 video shares had a very high value of shares. If there was less than 11.5 videos, and equally high share rate can be gained for this data subset having and LDA_00 <0.92, a kw_avg_avg greater than 6724, and more than 0.6 unique tokens. 
+
+## Linear Models
+Linear models are very valuable and powerful tools, and are very versatile, and can be applied to many situations. Multiple regression examines the relationship between several independent variables and one dependent variable (in this case, total Shares). Regression models give users the ability to determine the relative influence of one or more predictor variables to the predictor, and it also allows users to identify outliers, or anomalies. The main disadvantages have to do with the input quality of data. Input that is incomplete may lead to wrong conclusions. It also assumes that data is independent, which is not always the case. 
+
+There are several different types of linear models. In this project, we use multiple different multiple regression values that were log transformed, representing the full dataset, and several partial subsets with multiple variables removed at different points for multicolinearity reasons.
+
+There are also several different types of variable selection, including forward, backward, and stepwise, which user predefined criteria set the entry and/or exit criteria of the models. Backwards selection starts with a full model, and then removes variables that are least significant one at a time, until the model criteria defined by the user are hit. Forward regression does the opposite, and is not represented here.
+
+
+### linear regression after log transformation
 Transform the response with log, then fit a linear regression model with all the variables
 ```{r}
 lm<- lm(log(shares)~.,train)
@@ -142,7 +185,7 @@ yhat_lm<-predict(lm,test)
 RMSE_lm<-sqrt(mean((test$shares - exp(yhat_lm))^2))
 ```
 
-##Plot the lm Residuals
+### Plot the lm Residuals
 ```{r}
 par(mfrow=c(2,2))
 plot(lm)
@@ -150,12 +193,14 @@ plot(lm)
 ```
 Looking at our residuals, there seems to be skewing in both direction, indicating that the data, even after transformation, has extreme outliers in both directions.
 
+### Model Removing the Day Variable
 ```{r}
 #look at the data for multicolinearity
+lmNewTest<-test[ -c(25:31) ]
 lm2<- lm(log(shares)~.,newTrain)
 summary(lm2)
-#yhat_lm2<-predict(lm2,test)
-#RMSE_lm2<-sqrt(mean((test$shares - exp(yhat_lm))^2))
+yhat_lm2<-predict(lm2,lmNewTest)
+RMSE_lm2<-sqrt(mean((lmNewTest$shares - exp(yhat_lm2))^2))
 
 
 library(mctest)
@@ -164,24 +209,32 @@ imcdiag(lm2)
 ```
 Looking at all of the VIF values, we are going to start by removing all of the LDA Values, and the positive word rate to remove all "infinite" VIF values.
 
+### First multicolinearity trim
+The mctest package was used to calculate the VIF values of multicolinearity.
 ```{r}
 toRemove<-c( "LDA_01", "LDA_02", "LDA_03", "LDA_04", "rate_positive_words")
-trimTrain <- newTrain[, ! names(newTrain) %in% toRemove, drop = F]
+trimTrain1 <- newTrain[, ! names(newTrain) %in% toRemove, drop = F]
+lmNewTest3<-lmNewTest[, ! names(newTrain) %in% toRemove, drop = F]
 
 #Repeat linear Model process
-lm3<- lm(log(shares)~., trimTrain)
+lm3<- lm(log(shares)~., trimTrain1)
+yhat_lm3<-predict(lm3,lmNewTest3)
+RMSE_lm3<-sqrt(mean((lmNewTest3$shares - exp(yhat_lm3))^2))
+
 omcdiag(lm3)
 imcdiag(lm3)
 
 ```
 This improves the model multicolinearity, but we are still left with some. We then pare down and select those models with the next highest VIF removed one at a time, until all values are below 5. 
 
+### Second Mulitcolinearity Trim
+
 ```{r}
 toRemove<-c("self_reference_avg_sharess", "kw_avg_min", "n_unique_tokens", "rate_negative_words", "kw_avg_avg", "n_non_stop_words", "global_sentiment_polarity", "avg_negative_polarity", "kw_max_max")
-trimTrain <- trimTrain[, ! names(trimTrain) %in% toRemove, drop = F]
+trimTrain2 <- trimTrain1[, ! names(trimTrain1) %in% toRemove, drop = F]
 
 #Repeat linear Model process
-lm4<- lm(log(shares)~., trimTrain)
+lm4<- lm(log(shares)~., trimTrain2)
 omcdiag(lm4)
 imcdiag(lm4)
 
@@ -190,56 +243,34 @@ imcdiag(lm4)
 After removing 15 more variables for obvious multicolinearity via VIF (>5), we need to replot the correlation matrix, which shows a much lower clustering rate of high correlations.
 ```{r}
 #Remove the predictor
-train_cor<-trimTrain[1:31]
+train_cor<-trimTrain2[1:31]
 res <- cor(train_cor)
 palette = colorRampPalette(c("green", "white", "red")) (20)
 heatmap(x = res, col = palette, symm = TRUE, cexRow=0.5, cexCol = 0.5)
 ```
 
-## Random Forests
-The manual dimensionality reduction was necessary to have the processing speeds to handle the random forests model. 
+The new heatmap appears to have less prominenet clustering values. 
 
 ```{r}
 #trim the testing data
-newTest<-test[ -c(25:31) ]
+newTest1<-test[ -c(25:31) ]
 toRemove<-c( "LDA_01", "LDA_02", "LDA_03", "LDA_04", "rate_positive_words", "self_reference_avg_sharess", "kw_avg_min", "n_unique_tokens", "rate_negative_words", "kw_avg_avg", "n_non_stop_words", "global_sentiment_polarity", "avg_negative_polarity", "kw_max_max")
 
-trimTest <- newTest[, ! names(newTest) %in% toRemove, drop = F]
+trimTest4 <- newTest1[, ! names(newTest1) %in% toRemove, drop = F]
 ```
 
 ```{r}
-library(randomForest)
-#single bagged model
-tree.train<-randomForest(shares~., data=trimTrain, mtry=32, importance=TRUE)
-tree.train
-
-#single bagged regression tree error prediction
-tree.test<-trimTest["shares"]
-yhat.bag<-predict(tree.train, newdata=trimTest)
-yhat.bag<-as.data.frame(yhat.bag)
-yhat_bag<-mean((yhat.bag$yhat.bag-tree.test$shares)^2)
-RMSE_bag<-sqrt(yhat_bag)
-
-#random forests model
-tree.trainRF<-randomForest(shares~., data=trimTrain, mtry=12, importance=TRUE)
-tree.trainRF
-
-#random forest error prediction
-yhat.rf<-predict(tree.trainRF, newdata = trimTest)
-yhat.rf<-as.data.frame(yhat.rf)
-yhat_rf<-mean((yhat.rf$yhat.rf-tree.test$shares)^2)
-RMSE_rf<-sqrt(yhat_rf)
-
-importance(tree.trainRF)
-varImpPlot(tree.trainRF)
+yhat_lm4<-predict(lm4,trimTest4)
+RMSE_lm4<-sqrt(mean((trimTest4$shares - exp(yhat_lm4))^2))
 ```
 
-## backward selection after log transformation
+
+### backward selection after log transformation
 Transform the response with log, then fit a linear regression model with the variables after backward selection
 ```{r}
 #backward selection after log transformation
 library(leaps)
-backward<- regsubsets(log(shares)~., trimTrain, nvmax = 31, method = "backward")
+backward<- regsubsets(log(shares)~., trimTrain1, nvmax = 31, method = "backward")
 backward_summary<-summary(backward)
 
 #backward_summary[["which"]][size, ]
@@ -261,7 +292,39 @@ yhat_back<-model %*% coef(backward, which.min(backward_summary$cp))
 RMSE_back<-sqrt(mean((test$shares - exp(yhat_back))^2))
 ```
 
-## boosted tree
+## Random Forests
+As previously mentioned in the regression trees section, the random forest builds an entire forest of these trees,  and merges them together to get a more accurate and stable predictions than one off trees. It is usually trained using the bagging method. Unlike regression trees, which are prone to overfitting, only a random subset of the features is taken into consideration by the algorithm for splitting a node (used 1/3 here). This builds in additional error and makes a more robust prediction.
+
+The manual dimensionality reduction was necessary to have the processing speeds to handle the random forests model. 
+
+```{r}
+library(randomForest)
+#single bagged model
+tree.train<-randomForest(shares~., data=trimTrain1, mtry=32, importance=TRUE)
+tree.train
+
+#single bagged regression tree error prediction
+tree.test<-lmNewTest3["shares"]
+yhat.bag<-predict(tree.train, newdata=lmNewTest3)
+yhat.bag<-as.data.frame(yhat.bag)
+yhat_bag<-mean((yhat.bag$yhat.bag-tree.test$shares)^2)
+RMSE_bag<-sqrt(yhat_bag)
+
+#random forests model
+tree.trainRF<-randomForest(shares~., data=trimTrain1, mtry=12, importance=TRUE)
+tree.trainRF
+
+#random forest error prediction
+yhat.rf<-predict(tree.trainRF, newdata = lmNewTest3)
+yhat.rf<-as.data.frame(yhat.rf)
+yhat_rf<-mean((yhat.rf$yhat.rf-tree.test$shares)^2)
+RMSE_rfTrimmed<-sqrt(yhat_rf)
+
+importance(tree.trainRF)
+varImpPlot(tree.trainRF)
+```
+
+## Boosted tree
 Boosting is a general approach that can be applied to many statistical learning methods for regression or classification.
 The trees in boosting are grown sequentially : each tree is grown using information from previously grown trees. Boosting does not involve bootstrap sampling; instead each tree is fit on a modified version of the original data set.
 Procedure (for regression trees):
@@ -290,9 +353,12 @@ RMSE_boost <- sqrt(mean((test$shares - exp(boostPred))^2))
 ```
 
 # Comparison  
-Compare all the models based on RMSE, here the model with the lowest RMSE will be shown.
+Generally, the model with the lowest RMSE is the best on comparison.
 ```{r}
-comparison<-data.frame(RMSE_lm, RMSE_back, RMSE_bag, RMSE_rf, RMSE_boost)
+comparison<-data.frame(RMSE_lm, RMSE_lm2, RMSE_lm3, RMSE_lm4, RMSE_back,  RMSE_bag, RMSE_rfTrimmed, RMSE_boost, RMSE_regTree)
+
+comparison  
 which.min(comparison)
 ```
 
+The overall prediction error rate for this data set is very high. This is likely due to the high values of outlier articles with freakishly high shares, that are timely AND viral. These values were NOT removed from analysis, as these are the share metrics that a company would likely want to evaluate for emulation. In this lifestyle sub dataset, the boosted tree model with the best predicted values.
