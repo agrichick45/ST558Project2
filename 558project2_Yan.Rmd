@@ -24,7 +24,6 @@ knitr::opts_chunk$set(echo = TRUE, warning=FALSE, message=FALSE)
 Subset the data to work on the data channel of interest
 ```{r}
 library(tidyverse)
-library(caret)
 
 data_whole<-read_csv("OnlineNewsPopularity/OnlineNewsPopularity.csv")
 
@@ -42,6 +41,7 @@ data_interest<-data_whole%>%
 
 split the data into a training (70% of the data) and test set (30% of the data)
 ```{r}
+library(caret)
 library(rsample)
 set.seed(14)
 index <- initial_split(data_interest,
