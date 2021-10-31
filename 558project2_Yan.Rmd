@@ -286,7 +286,7 @@ coef(backward, which.max(backward_summary$adjr2))
 sub <- backward_summary$which[which.min(backward_summary$cp), ]
 
 # Create test model matrix, predcition, test error
-test_model <- model.matrix(log(shares)~ ., data = trimTest)
+test_model <- model.matrix(log(shares)~ ., data = lmNewTest3)
 model <- test_model[, sub]
 yhat_back<-model %*% coef(backward, which.min(backward_summary$cp))
 RMSE_back<-sqrt(mean((test$shares - exp(yhat_back))^2))
