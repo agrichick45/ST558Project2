@@ -351,13 +351,9 @@ summary(results)
 ```
 
 ```{r}
-#Apply best fit parameters to model. 
-#random forests model
-tree.trainRF<-randomForest(shares~., data=trimTrain1, mtry=mtry,  importance=TRUE)
-tree.trainRF
 
 #random forest error prediction
-tree.trainRF<-randomForest(shares~., data=trimTrain1, ntree=500, mtry=2, importance=TRUE)
+tree.trainRF<-randomForest(shares~., data=trimTrain1, ntree=500, mtry=mtry, importance=TRUE)
 tree.trainRF
 plot(tree.trainRF)
 
