@@ -421,8 +421,10 @@ summary(tree.news)</code></pre>
 ## Number of terminal nodes:  3 
 ## Residual mean deviance:  4.6e+07 = 2.271e+11 / 4936 
 ## Distribution of residuals:
-##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
-## -52380.0  -1829.0  -1520.0      0.0   -620.1 140300.0</code></pre>
+##     Min.  1st Qu.   Median     Mean  3rd Qu. 
+## -52380.0  -1829.0  -1520.0      0.0   -620.1 
+##     Max. 
+## 140300.0</code></pre>
 <pre class="r"><code>plot(tree.news)
 text(tree.news, pretty=0)</code></pre>
 <p><img src="data:image/png;base64,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QoCA5iagECCguQkoBAhobgIKAQKam4BCgIDmJqAQIKC5CSgECGhuAgoBApqbgEKAgOYmoBAgoLkJKAQIaG4CCgECmpuAQoCA5iagECCguQkoBAhobgIKAQKam4BCgIDmJqAQIKC5CSgECGhuAgoBApqbgEKAgOYmoBAgoLkJKAQIaG4CCgECmpuAQoCA5iagECCguQkoBAhobgIKAQKam4BCgIDmJqAQIKC5CSgECGhuAgoBApqbgEKAgOYmoBAgoLkJKAQIaG4CCgECmpuAQoCA5iagECCguQkoBAhobgIKAQKam4BCgIDmJqAQIKC5CSgECGhuAgoBApqbgEKAgOYmoBAgoLkJKAQIaG4CCgECmpuAQoCA5iagECCguQkoBAhobgIKAQKam4BCgIDmJqAQIKC5CSgECGhuAgoBApqbgEKAgOYmoBAgoLkJKAQIaG4CCgECmpuAQoCA5iagECCguQkoBAhobgIKAQKam4BCgIDmJqAQIKC5CSgECGhuAgoBApqbgEKAgOYmoBAgoLkJKAQIaG4CCgECmpuAQoCA5iagECCguQkoBAhobgIKAQKam4BCgIDmJqAQIKC5CSgECGhuAgoBApqbgEKAgOYmoBAgoLkJKAQIaG4CCgECmpuAQoCA5iagECCguQkoBAhobgIKAQKam4BCgIDmJqAQIKC5CSgECGhuAgoBApqbgEKAgOYmoBAgoLkJKAQIaG4CCgECmpuAQoCA5iagECCguQkoBAhobgIKAQKam4BCgIDmJqAQIKC5CSgECGhuAgoBApqbgEKAgOYmoBAgoLkJKAQIaG4CCgECmpuAQoCA5iagECCguQkoBAhobgIKAQKam4BCgIDmJqAQIKC5CSgECGhuAgoBApqbgEKAgOYmoBAgoLkJKAQIaG4CCgECmpuAQoCA5iagECCguQkoBAhobgIKAQKam4BCgIDmJqAQIKC5CSgECGhuAgoBApqbgEKAgOYmoBAgoLkJKAQIaG4CCgECmpuAQoCA5iagECCguQkoBAhobgIKAQKam4BCgIDmJqAQIKC5CSgECGhuAgoBApqbgEKAgOYmoBAgoLkJKAQIaG4CCgECmpuAQoCA5iagECCguQkoBAhobgIKAQKam4BCgIDmJqAQIKC5CSgECGhuAgoBApqbgEKAgOYmoBAgoLkJKAQIaG4CCgECmpuAQoCA5iagECCguQkoBAhobgIKAQKam4BCgIDmJqAQIKC5CSgECGhuAgoBApqbgEKAgOYmoBAgoLkJKAQIaG4CCgECmpuAQoCA5iagECCguQkoBAhobgIKAQKam4BCgIDmJqAQIKC5CSgECGhuAgoBApqbgEKAgOYmoBAgoLkJKAQIaG4CCgECmpuAQoCA5iagECCguQkoBAhobgIKAQKam4BCgIDmJqAQIKC5CSgECGhuAgoBApqbgEKAgOYmoBAgoLkJKAQIaG4CCgECmpuAQoCA5iagECCguQkoBAhobgIKAQKam4BCgIDmJqAQIKC5CSgECGhuAgoBApqbgEKAgOYmoBAgoLkJKAQIaG4CCgECmpuAQoCA5iagECCguQkoBAhobgIKAQKam4BCgIDmJqAQIKC5CSgECGhuAgoBApqbgEKAgOYmoBAgoLkJKAQIaG4CCgECmpuAQoCA5iagECCguQkoBAhobgIKAQKam4BCgIDmJqAQIKC5CSgECGhuAgoBAvTO+MUAAAiRSURBVJqbgEKAgOYmoBAgoLkJKAQIaG4CCgECmpuAQoCA5iagECCguQkoBAhobgIKAQKam4BCgIDmJqAQIKC5CSgECGhuAgoBApqbgEKAgOYmoBAgoLkJKAQIaG4CCgECmpuAQoCA5iagECCguQkoBAhobgIKAQKam4BCgIDmJqAQIKC5CSgECGhuAgoBApqbgEKAgOYmoBAgoLkJKAQIaG4CCgECmpuAQoCA5iagECCguQkoBAhobgIKAQKam4BCgIDmJqAQIKC5CSgECGhuAgoBApqbgEKAgOYmoBAgoLkJKAQIaG4CCgECmpuAQoCA5iagECCguQkoBAhobgIKAQKam4BCgIDmJqAQIKC5CSgECGhuAgoBApqbgEKAgOYmoBAgoLkJKAQIaG4CCgECmpuAQoCA5iagECCguQkoBAhobgIKAQKam4BCgIDmJqAQIKC5CSgECGhuAgoBApqbgEKAgOYmoBAgoLkJKAQIaG4CCgECmpuAQoCA5iagECCguQkoBAhobgIKAQKam4BCgIDmJqAQIKC5CSgECGhuAgoBApqbgEKAgOYmoBAgoLkJKAQIaG4CCgECmpuAQoCA5iagECCguQkoBAhobgIKAQKam4BCgIDmJqAQIKC5CSgECGhuAgoBApqbgAI8PgIKUEhAAQoJKEAhAQUo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" width="672" /></p>
@@ -453,116 +455,171 @@ summary(lm)</code></pre>
 ## -3.8917 -0.5435 -0.1980  0.3181  4.6430 
 ## 
 ## Coefficients: (3 not defined because of singularities)
-##                                Estimate Std. Error
-## (Intercept)                   1.576e+02  3.894e+02
-## timedelta                     2.681e-04  8.438e-05
-## n_tokens_title                1.360e-03  6.404e-03
-## n_tokens_content             -1.410e-05  4.899e-05
-## n_unique_tokens               3.709e-01  4.361e-01
-## n_non_stop_words             -2.674e-01  3.802e-01
-## n_non_stop_unique_tokens     -2.010e-01  3.638e-01
-## num_hrefs                     4.520e-03  1.195e-03
-## num_self_hrefs               -5.239e-03  4.879e-03
-## num_imgs                      2.561e-03  1.537e-03
-## num_videos                    2.070e-03  2.408e-03
-## average_token_length         -4.234e-02  5.739e-02
-## num_keywords                  1.344e-02  8.238e-03
-## kw_min_min                    1.106e-03  4.185e-04
-## kw_max_min                    7.034e-05  1.718e-05
-## kw_avg_min                   -4.732e-04  8.510e-05
-## kw_min_max                   -1.471e-06  4.955e-07
-## kw_max_max                    4.055e-08  1.511e-07
-## kw_avg_max                   -2.319e-07  2.224e-07
-## kw_min_avg                   -5.177e-05  1.797e-05
-## kw_max_avg                   -3.733e-05  6.257e-06
-## kw_avg_avg                    3.492e-04  3.346e-05
-## self_reference_min_shares     3.321e-06  2.761e-06
-## self_reference_max_shares    -9.333e-07  9.936e-07
-## self_reference_avg_sharess    5.607e-06  2.949e-06
-## weekday_is_monday            -4.397e-01  5.411e-02
-## weekday_is_tuesday           -4.503e-01  5.463e-02
-## weekday_is_wednesday         -4.318e-01  5.471e-02
-## weekday_is_thursday          -4.201e-01  5.515e-02
-## weekday_is_friday            -3.557e-01  5.715e-02
-## weekday_is_saturday          -9.213e-02  7.028e-02
-## weekday_is_sunday                    NA         NA
-## is_weekend                           NA         NA
-## LDA_00                       -1.511e+02  3.894e+02
-## LDA_01                       -1.509e+02  3.894e+02
-## LDA_02                       -1.510e+02  3.894e+02
-## LDA_03                       -1.510e+02  3.894e+02
-## LDA_04                       -1.511e+02  3.894e+02
-## global_subjectivity           4.548e-01  1.871e-01
-## global_sentiment_polarity    -3.740e-01  3.714e-01
-## global_rate_positive_words   -1.004e+00  1.640e+00
-## global_rate_negative_words    1.113e+00  2.916e+00
-## rate_positive_words           2.456e-01  2.631e-01
-## rate_negative_words                  NA         NA
-## avg_positive_polarity         3.266e-01  2.946e-01
-## min_positive_polarity         1.889e-01  2.757e-01
-## max_positive_polarity        -1.017e-03  9.634e-02
-## avg_negative_polarity         3.118e-01  2.588e-01
-## min_negative_polarity        -6.797e-02  9.453e-02
-## max_negative_polarity        -7.999e-02  2.155e-01
-## title_subjectivity            2.211e-02  5.686e-02
-## title_sentiment_polarity      1.042e-01  5.017e-02
-## abs_title_subjectivity        2.194e-02  7.673e-02
-## abs_title_sentiment_polarity -5.832e-02  7.977e-02
-##                              t value Pr(&gt;|t|)    
-## (Intercept)                    0.405 0.685630    
-## timedelta                      3.177 0.001497 ** 
-## n_tokens_title                 0.212 0.831839    
-## n_tokens_content              -0.288 0.773478    
-## n_unique_tokens                0.851 0.395057    
-## n_non_stop_words              -0.703 0.481913    
-## n_non_stop_unique_tokens      -0.552 0.580652    
-## num_hrefs                      3.782 0.000157 ***
-## num_self_hrefs                -1.074 0.283032    
-## num_imgs                       1.666 0.095846 .  
-## num_videos                     0.859 0.390134    
-## average_token_length          -0.738 0.460735    
-## num_keywords                   1.632 0.102830    
-## kw_min_min                     2.642 0.008278 ** 
-## kw_max_min                     4.095 4.30e-05 ***
-## kw_avg_min                    -5.561 2.83e-08 ***
-## kw_min_max                    -2.969 0.002998 ** 
-## kw_max_max                     0.268 0.788416    
-## kw_avg_max                    -1.043 0.297178    
-## kw_min_avg                    -2.880 0.003991 ** 
-## kw_max_avg                    -5.966 2.61e-09 ***
-## kw_avg_avg                    10.438  &lt; 2e-16 ***
-## self_reference_min_shares      1.203 0.229150    
-## self_reference_max_shares     -0.939 0.347618    
-## self_reference_avg_sharess     1.902 0.057293 .  
-## weekday_is_monday             -8.127 5.55e-16 ***
-## weekday_is_tuesday            -8.242  &lt; 2e-16 ***
-## weekday_is_wednesday          -7.893 3.60e-15 ***
-## weekday_is_thursday           -7.619 3.06e-14 ***
-## weekday_is_friday             -6.223 5.29e-10 ***
-## weekday_is_saturday           -1.311 0.189934    
-## weekday_is_sunday                 NA       NA    
-## is_weekend                        NA       NA    
-## LDA_00                        -0.388 0.697951    
-## LDA_01                        -0.388 0.698303    
-## LDA_02                        -0.388 0.698200    
-## LDA_03                        -0.388 0.698108    
-## LDA_04                        -0.388 0.697939    
-## global_subjectivity            2.432 0.015071 *  
-## global_sentiment_polarity     -1.007 0.313966    
-## global_rate_positive_words    -0.612 0.540543    
-## global_rate_negative_words     0.382 0.702793    
-## rate_positive_words            0.934 0.350596    
-## rate_negative_words               NA       NA    
-## avg_positive_polarity          1.109 0.267666    
-## min_positive_polarity          0.685 0.493110    
-## max_positive_polarity         -0.011 0.991580    
-## avg_negative_polarity          1.205 0.228358    
-## min_negative_polarity         -0.719 0.472169    
-## max_negative_polarity         -0.371 0.710524    
-## title_subjectivity             0.389 0.697391    
-## title_sentiment_polarity       2.076 0.037918 *  
-## abs_title_subjectivity         0.286 0.774906    
-## abs_title_sentiment_polarity  -0.731 0.464733    
+##                                Estimate
+## (Intercept)                   1.576e+02
+## timedelta                     2.681e-04
+## n_tokens_title                1.360e-03
+## n_tokens_content             -1.410e-05
+## n_unique_tokens               3.709e-01
+## n_non_stop_words             -2.674e-01
+## n_non_stop_unique_tokens     -2.010e-01
+## num_hrefs                     4.520e-03
+## num_self_hrefs               -5.239e-03
+## num_imgs                      2.561e-03
+## num_videos                    2.070e-03
+## average_token_length         -4.234e-02
+## num_keywords                  1.344e-02
+## kw_min_min                    1.106e-03
+## kw_max_min                    7.034e-05
+## kw_avg_min                   -4.732e-04
+## kw_min_max                   -1.471e-06
+## kw_max_max                    4.055e-08
+## kw_avg_max                   -2.319e-07
+## kw_min_avg                   -5.177e-05
+## kw_max_avg                   -3.733e-05
+## kw_avg_avg                    3.492e-04
+## self_reference_min_shares     3.321e-06
+## self_reference_max_shares    -9.333e-07
+## self_reference_avg_sharess    5.607e-06
+## weekday_is_monday            -4.397e-01
+## weekday_is_tuesday           -4.503e-01
+## weekday_is_wednesday         -4.318e-01
+## weekday_is_thursday          -4.201e-01
+## weekday_is_friday            -3.557e-01
+## weekday_is_saturday          -9.213e-02
+## weekday_is_sunday                    NA
+## is_weekend                           NA
+## LDA_00                       -1.511e+02
+## LDA_01                       -1.509e+02
+## LDA_02                       -1.510e+02
+## LDA_03                       -1.510e+02
+## LDA_04                       -1.511e+02
+## global_subjectivity           4.548e-01
+## global_sentiment_polarity    -3.740e-01
+## global_rate_positive_words   -1.004e+00
+## global_rate_negative_words    1.113e+00
+## rate_positive_words           2.456e-01
+## rate_negative_words                  NA
+## avg_positive_polarity         3.266e-01
+## min_positive_polarity         1.889e-01
+## max_positive_polarity        -1.017e-03
+## avg_negative_polarity         3.118e-01
+## min_negative_polarity        -6.797e-02
+## max_negative_polarity        -7.999e-02
+## title_subjectivity            2.211e-02
+## title_sentiment_polarity      1.042e-01
+## abs_title_subjectivity        2.194e-02
+## abs_title_sentiment_polarity -5.832e-02
+##                              Std. Error t value
+## (Intercept)                   3.894e+02   0.405
+## timedelta                     8.438e-05   3.177
+## n_tokens_title                6.404e-03   0.212
+## n_tokens_content              4.899e-05  -0.288
+## n_unique_tokens               4.361e-01   0.851
+## n_non_stop_words              3.802e-01  -0.703
+## n_non_stop_unique_tokens      3.638e-01  -0.552
+## num_hrefs                     1.195e-03   3.782
+## num_self_hrefs                4.879e-03  -1.074
+## num_imgs                      1.537e-03   1.666
+## num_videos                    2.408e-03   0.859
+## average_token_length          5.739e-02  -0.738
+## num_keywords                  8.238e-03   1.632
+## kw_min_min                    4.185e-04   2.642
+## kw_max_min                    1.718e-05   4.095
+## kw_avg_min                    8.510e-05  -5.561
+## kw_min_max                    4.955e-07  -2.969
+## kw_max_max                    1.511e-07   0.268
+## kw_avg_max                    2.224e-07  -1.043
+## kw_min_avg                    1.797e-05  -2.880
+## kw_max_avg                    6.257e-06  -5.966
+## kw_avg_avg                    3.346e-05  10.438
+## self_reference_min_shares     2.761e-06   1.203
+## self_reference_max_shares     9.936e-07  -0.939
+## self_reference_avg_sharess    2.949e-06   1.902
+## weekday_is_monday             5.411e-02  -8.127
+## weekday_is_tuesday            5.463e-02  -8.242
+## weekday_is_wednesday          5.471e-02  -7.893
+## weekday_is_thursday           5.515e-02  -7.619
+## weekday_is_friday             5.715e-02  -6.223
+## weekday_is_saturday           7.028e-02  -1.311
+## weekday_is_sunday                    NA      NA
+## is_weekend                           NA      NA
+## LDA_00                        3.894e+02  -0.388
+## LDA_01                        3.894e+02  -0.388
+## LDA_02                        3.894e+02  -0.388
+## LDA_03                        3.894e+02  -0.388
+## LDA_04                        3.894e+02  -0.388
+## global_subjectivity           1.871e-01   2.432
+## global_sentiment_polarity     3.714e-01  -1.007
+## global_rate_positive_words    1.640e+00  -0.612
+## global_rate_negative_words    2.916e+00   0.382
+## rate_positive_words           2.631e-01   0.934
+## rate_negative_words                  NA      NA
+## avg_positive_polarity         2.946e-01   1.109
+## min_positive_polarity         2.757e-01   0.685
+## max_positive_polarity         9.634e-02  -0.011
+## avg_negative_polarity         2.588e-01   1.205
+## min_negative_polarity         9.453e-02  -0.719
+## max_negative_polarity         2.155e-01  -0.371
+## title_subjectivity            5.686e-02   0.389
+## title_sentiment_polarity      5.017e-02   2.076
+## abs_title_subjectivity        7.673e-02   0.286
+## abs_title_sentiment_polarity  7.977e-02  -0.731
+##                              Pr(&gt;|t|)    
+## (Intercept)                  0.685630    
+## timedelta                    0.001497 ** 
+## n_tokens_title               0.831839    
+## n_tokens_content             0.773478    
+## n_unique_tokens              0.395057    
+## n_non_stop_words             0.481913    
+## n_non_stop_unique_tokens     0.580652    
+## num_hrefs                    0.000157 ***
+## num_self_hrefs               0.283032    
+## num_imgs                     0.095846 .  
+## num_videos                   0.390134    
+## average_token_length         0.460735    
+## num_keywords                 0.102830    
+## kw_min_min                   0.008278 ** 
+## kw_max_min                   4.30e-05 ***
+## kw_avg_min                   2.83e-08 ***
+## kw_min_max                   0.002998 ** 
+## kw_max_max                   0.788416    
+## kw_avg_max                   0.297178    
+## kw_min_avg                   0.003991 ** 
+## kw_max_avg                   2.61e-09 ***
+## kw_avg_avg                    &lt; 2e-16 ***
+## self_reference_min_shares    0.229150    
+## self_reference_max_shares    0.347618    
+## self_reference_avg_sharess   0.057293 .  
+## weekday_is_monday            5.55e-16 ***
+## weekday_is_tuesday            &lt; 2e-16 ***
+## weekday_is_wednesday         3.60e-15 ***
+## weekday_is_thursday          3.06e-14 ***
+## weekday_is_friday            5.29e-10 ***
+## weekday_is_saturday          0.189934    
+## weekday_is_sunday                  NA    
+## is_weekend                         NA    
+## LDA_00                       0.697951    
+## LDA_01                       0.698303    
+## LDA_02                       0.698200    
+## LDA_03                       0.698108    
+## LDA_04                       0.697939    
+## global_subjectivity          0.015071 *  
+## global_sentiment_polarity    0.313966    
+## global_rate_positive_words   0.540543    
+## global_rate_negative_words   0.702793    
+## rate_positive_words          0.350596    
+## rate_negative_words                NA    
+## avg_positive_polarity        0.267666    
+## min_positive_polarity        0.493110    
+## max_positive_polarity        0.991580    
+## avg_negative_polarity        0.228358    
+## min_negative_polarity        0.472169    
+## max_negative_polarity        0.710524    
+## title_subjectivity           0.697391    
+## title_sentiment_polarity     0.037918 *  
+## abs_title_subjectivity       0.774906    
+## abs_title_sentiment_polarity 0.464733    
 ## ---
 ## Signif. codes:  
 ## 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
@@ -615,147 +672,288 @@ omcdiag(lm2)</code></pre>
 ## 
 ## All Individual Multicollinearity Diagnostics Result
 ## 
-##                                       VIF    TOL
-## timedelta                    1.982400e+00 0.5044
-## n_tokens_title               1.129200e+00 0.8856
-## n_tokens_content             4.023800e+00 0.2485
-## n_unique_tokens              1.189446e+05 0.0000
-## n_non_stop_words                      Inf 0.0000
-## n_non_stop_unique_tokens     7.113844e+04 0.0000
-## num_hrefs                    1.497900e+00 0.6676
-## num_self_hrefs               1.398800e+00 0.7149
-## num_imgs                     1.951500e+00 0.5124
-## num_videos                   1.417300e+00 0.7055
-## average_token_length         1.388170e+01 0.0720
-## num_keywords                 1.522900e+00 0.6566
-## kw_min_min                   4.300400e+00 0.2325
-## kw_max_min                   2.031970e+01 0.0492
-## kw_avg_min                   2.161280e+01 0.0463
-## kw_min_max                   1.770400e+00 0.5648
-## kw_max_max                   5.439100e+00 0.1839
-## kw_avg_max                   3.627400e+00 0.2757
-## kw_min_avg                   2.512200e+00 0.3981
-## kw_max_avg                   6.047200e+00 0.1654
-## kw_avg_avg                   8.626300e+00 0.1159
-## self_reference_min_shares    2.506300e+00 0.3990
-## self_reference_max_shares    5.235800e+00 0.1910
-## self_reference_avg_sharess   7.755000e+00 0.1289
-## is_weekend                   1.027400e+00 0.9733
-## LDA_00                                Inf 0.0000
-## LDA_01                                Inf 0.0000
-## LDA_02                                Inf 0.0000
-## LDA_03                                Inf 0.0000
-## LDA_04                                Inf 0.0000
-## global_subjectivity          2.764000e+00 0.3618
-## global_sentiment_polarity    8.447000e+00 0.1184
-## global_rate_positive_words   5.004900e+00 0.1998
-## global_rate_negative_words   8.361700e+00 0.1196
-## rate_positive_words                   Inf 0.0000
-## rate_negative_words          9.007199e+15 0.0000
-## avg_positive_polarity        5.902800e+00 0.1694
-## min_positive_polarity        1.728100e+00 0.5787
-## max_positive_polarity        3.574400e+00 0.2798
-## avg_negative_polarity        7.002800e+00 0.1428
-## min_negative_polarity        4.953700e+00 0.2019
-## max_negative_polarity        2.888000e+00 0.3463
-## title_subjectivity           2.150800e+00 0.4649
-## title_sentiment_polarity     1.258200e+00 0.7948
-## abs_title_subjectivity       1.365500e+00 0.7323
-## abs_title_sentiment_polarity 2.150300e+00 0.4651
-##                                        Wi           Fi
-## timedelta                    1.068217e+02 1.092718e+02
-## n_tokens_title               1.404790e+01 1.437010e+01
-## n_tokens_content             3.287878e+02 3.363289e+02
-## n_unique_tokens              1.293314e+07 1.322977e+07
-## n_non_stop_words                      Inf          Inf
-## n_non_stop_unique_tokens     7.735011e+06 7.912424e+06
-## num_hrefs                    5.414020e+01 5.538200e+01
-## num_self_hrefs               4.336820e+01 4.436290e+01
-## num_imgs                     1.034649e+02 1.058380e+02
-## num_videos                   4.537980e+01 4.642070e+01
-## average_token_length         1.400674e+03 1.432801e+03
-## num_keywords                 5.685970e+01 5.816390e+01
-## kw_min_min                   3.588582e+02 3.670890e+02
-## kw_max_min                   2.100693e+03 2.148875e+03
-## kw_avg_min                   2.241297e+03 2.292704e+03
-## kw_min_max                   8.376790e+01 8.568920e+01
-## kw_max_max                   4.826727e+02 4.937434e+02
-## kw_avg_max                   2.856806e+02 2.922331e+02
-## kw_min_avg                   1.644257e+02 1.681971e+02
-## kw_max_avg                   5.487991e+02 5.613865e+02
-## kw_avg_avg                   8.292296e+02 8.482491e+02
-## self_reference_min_shares    1.637872e+02 1.675438e+02
-## self_reference_max_shares    4.605679e+02 4.711316e+02
-## self_reference_avg_sharess   7.344981e+02 7.513447e+02
-## is_weekend                   2.978800e+00 3.047100e+00
-## LDA_00                                Inf          Inf
-## LDA_01                                Inf          Inf
-## LDA_02                                Inf          Inf
-## LDA_03                                Inf          Inf
-## LDA_04                                Inf          Inf
-## global_subjectivity          1.918054e+02 1.962047e+02
-## global_sentiment_polarity    8.097402e+02 8.283127e+02
-## global_rate_positive_words   4.354640e+02 4.454519e+02
-## global_rate_negative_words   8.004645e+02 8.188242e+02
-## rate_positive_words                   Inf          Inf
-## rate_negative_words          9.793828e+17 1.001846e+18
-## avg_positive_polarity        5.330965e+02 5.453237e+02
-## min_positive_polarity        7.916550e+01 8.098130e+01
-## max_positive_polarity        2.799224e+02 2.863428e+02
-## avg_negative_polarity        6.527015e+02 6.676721e+02
-## min_negative_polarity        4.299006e+02 4.397609e+02
-## max_negative_polarity        2.052902e+02 2.099988e+02
-## title_subjectivity           1.251335e+02 1.280036e+02
-## title_sentiment_polarity     2.807830e+01 2.872230e+01
-## abs_title_subjectivity       3.974660e+01 4.065820e+01
-## abs_title_sentiment_polarity 1.250757e+02 1.279445e+02
-##                              Leamer         CVIF Klein
-## timedelta                    0.7102 2.016100e+00     1
-## n_tokens_title               0.9411 1.148400e+00     1
-## n_tokens_content             0.4985 4.092100e+00     1
-## n_unique_tokens              0.0029 1.209636e+05     1
-## n_non_stop_words             0.0000          Inf     1
-## n_non_stop_unique_tokens     0.0037 7.234593e+04     1
-## num_hrefs                    0.8171 1.523300e+00     1
-## num_self_hrefs               0.8455 1.422600e+00     1
-## num_imgs                     0.7158 1.984700e+00     1
-## num_videos                   0.8400 1.441400e+00     1
-## average_token_length         0.2684 1.411740e+01     1
-## num_keywords                 0.8103 1.548800e+00     1
-## kw_min_min                   0.4822 4.373300e+00     1
-## kw_max_min                   0.2218 2.066460e+01     1
-## kw_avg_min                   0.2151 2.197960e+01     1
-## kw_min_max                   0.7516 1.800400e+00     1
-## kw_max_max                   0.4288 5.531400e+00     1
-## kw_avg_max                   0.5251 3.688900e+00     1
-## kw_min_avg                   0.6309 2.554800e+00     1
-## kw_max_avg                   0.4067 6.149800e+00     1
-## kw_avg_avg                   0.3405 8.772700e+00     1
-## self_reference_min_shares    0.6317 2.548900e+00     1
-## self_reference_max_shares    0.4370 5.324600e+00     1
-## self_reference_avg_sharess   0.3591 7.886700e+00     1
-## is_weekend                   0.9866 1.044800e+00     0
-## LDA_00                       0.0000          Inf     1
-## LDA_01                       0.0000          Inf     1
-## LDA_02                       0.0000          Inf     1
-## LDA_03                       0.0000          Inf     1
-## LDA_04                       0.0000          Inf     1
-## global_subjectivity          0.6015 2.810900e+00     1
-## global_sentiment_polarity    0.3441 8.590400e+00     1
-## global_rate_positive_words   0.4470 5.089800e+00     1
-## global_rate_negative_words   0.3458 8.503700e+00     1
-## rate_positive_words          0.0000          Inf     1
-## rate_negative_words          0.0000 9.160086e+15     1
-## avg_positive_polarity        0.4116 6.003000e+00     1
-## min_positive_polarity        0.7607 1.757400e+00     1
-## max_positive_polarity        0.5289 3.635100e+00     1
-## avg_negative_polarity        0.3779 7.121600e+00     1
-## min_negative_polarity        0.4493 5.037800e+00     1
-## max_negative_polarity        0.5884 2.937000e+00     1
-## title_subjectivity           0.6819 2.187300e+00     1
-## title_sentiment_polarity     0.8915 1.279600e+00     1
-## abs_title_subjectivity       0.8558 1.388700e+00     1
-## abs_title_sentiment_polarity 0.6819 2.186800e+00     1
+##                                       VIF
+## timedelta                    1.982400e+00
+## n_tokens_title               1.129200e+00
+## n_tokens_content             4.023800e+00
+## n_unique_tokens              1.189446e+05
+## n_non_stop_words                      Inf
+## n_non_stop_unique_tokens     7.113844e+04
+## num_hrefs                    1.497900e+00
+## num_self_hrefs               1.398800e+00
+## num_imgs                     1.951500e+00
+## num_videos                   1.417300e+00
+## average_token_length         1.388170e+01
+## num_keywords                 1.522900e+00
+## kw_min_min                   4.300400e+00
+## kw_max_min                   2.031970e+01
+## kw_avg_min                   2.161280e+01
+## kw_min_max                   1.770400e+00
+## kw_max_max                   5.439100e+00
+## kw_avg_max                   3.627400e+00
+## kw_min_avg                   2.512200e+00
+## kw_max_avg                   6.047200e+00
+## kw_avg_avg                   8.626300e+00
+## self_reference_min_shares    2.506300e+00
+## self_reference_max_shares    5.235800e+00
+## self_reference_avg_sharess   7.755000e+00
+## is_weekend                   1.027400e+00
+## LDA_00                                Inf
+## LDA_01                                Inf
+## LDA_02                                Inf
+## LDA_03                                Inf
+## LDA_04                                Inf
+## global_subjectivity          2.764000e+00
+## global_sentiment_polarity    8.447000e+00
+## global_rate_positive_words   5.004900e+00
+## global_rate_negative_words   8.361700e+00
+## rate_positive_words                   Inf
+## rate_negative_words          9.007199e+15
+## avg_positive_polarity        5.902800e+00
+## min_positive_polarity        1.728100e+00
+## max_positive_polarity        3.574400e+00
+## avg_negative_polarity        7.002800e+00
+## min_negative_polarity        4.953700e+00
+## max_negative_polarity        2.888000e+00
+## title_subjectivity           2.150800e+00
+## title_sentiment_polarity     1.258200e+00
+## abs_title_subjectivity       1.365500e+00
+## abs_title_sentiment_polarity 2.150300e+00
+##                                 TOL
+## timedelta                    0.5044
+## n_tokens_title               0.8856
+## n_tokens_content             0.2485
+## n_unique_tokens              0.0000
+## n_non_stop_words             0.0000
+## n_non_stop_unique_tokens     0.0000
+## num_hrefs                    0.6676
+## num_self_hrefs               0.7149
+## num_imgs                     0.5124
+## num_videos                   0.7055
+## average_token_length         0.0720
+## num_keywords                 0.6566
+## kw_min_min                   0.2325
+## kw_max_min                   0.0492
+## kw_avg_min                   0.0463
+## kw_min_max                   0.5648
+## kw_max_max                   0.1839
+## kw_avg_max                   0.2757
+## kw_min_avg                   0.3981
+## kw_max_avg                   0.1654
+## kw_avg_avg                   0.1159
+## self_reference_min_shares    0.3990
+## self_reference_max_shares    0.1910
+## self_reference_avg_sharess   0.1289
+## is_weekend                   0.9733
+## LDA_00                       0.0000
+## LDA_01                       0.0000
+## LDA_02                       0.0000
+## LDA_03                       0.0000
+## LDA_04                       0.0000
+## global_subjectivity          0.3618
+## global_sentiment_polarity    0.1184
+## global_rate_positive_words   0.1998
+## global_rate_negative_words   0.1196
+## rate_positive_words          0.0000
+## rate_negative_words          0.0000
+## avg_positive_polarity        0.1694
+## min_positive_polarity        0.5787
+## max_positive_polarity        0.2798
+## avg_negative_polarity        0.1428
+## min_negative_polarity        0.2019
+## max_negative_polarity        0.3463
+## title_subjectivity           0.4649
+## title_sentiment_polarity     0.7948
+## abs_title_subjectivity       0.7323
+## abs_title_sentiment_polarity 0.4651
+##                                        Wi
+## timedelta                    1.068217e+02
+## n_tokens_title               1.404790e+01
+## n_tokens_content             3.287878e+02
+## n_unique_tokens              1.293314e+07
+## n_non_stop_words                      Inf
+## n_non_stop_unique_tokens     7.735011e+06
+## num_hrefs                    5.414020e+01
+## num_self_hrefs               4.336820e+01
+## num_imgs                     1.034649e+02
+## num_videos                   4.537980e+01
+## average_token_length         1.400674e+03
+## num_keywords                 5.685970e+01
+## kw_min_min                   3.588582e+02
+## kw_max_min                   2.100693e+03
+## kw_avg_min                   2.241297e+03
+## kw_min_max                   8.376790e+01
+## kw_max_max                   4.826727e+02
+## kw_avg_max                   2.856806e+02
+## kw_min_avg                   1.644257e+02
+## kw_max_avg                   5.487991e+02
+## kw_avg_avg                   8.292296e+02
+## self_reference_min_shares    1.637872e+02
+## self_reference_max_shares    4.605679e+02
+## self_reference_avg_sharess   7.344981e+02
+## is_weekend                   2.978800e+00
+## LDA_00                                Inf
+## LDA_01                                Inf
+## LDA_02                                Inf
+## LDA_03                                Inf
+## LDA_04                                Inf
+## global_subjectivity          1.918054e+02
+## global_sentiment_polarity    8.097402e+02
+## global_rate_positive_words   4.354640e+02
+## global_rate_negative_words   8.004645e+02
+## rate_positive_words                   Inf
+## rate_negative_words          9.793828e+17
+## avg_positive_polarity        5.330965e+02
+## min_positive_polarity        7.916550e+01
+## max_positive_polarity        2.799224e+02
+## avg_negative_polarity        6.527015e+02
+## min_negative_polarity        4.299006e+02
+## max_negative_polarity        2.052902e+02
+## title_subjectivity           1.251335e+02
+## title_sentiment_polarity     2.807830e+01
+## abs_title_subjectivity       3.974660e+01
+## abs_title_sentiment_polarity 1.250757e+02
+##                                        Fi
+## timedelta                    1.092718e+02
+## n_tokens_title               1.437010e+01
+## n_tokens_content             3.363289e+02
+## n_unique_tokens              1.322977e+07
+## n_non_stop_words                      Inf
+## n_non_stop_unique_tokens     7.912424e+06
+## num_hrefs                    5.538200e+01
+## num_self_hrefs               4.436290e+01
+## num_imgs                     1.058380e+02
+## num_videos                   4.642070e+01
+## average_token_length         1.432801e+03
+## num_keywords                 5.816390e+01
+## kw_min_min                   3.670890e+02
+## kw_max_min                   2.148875e+03
+## kw_avg_min                   2.292704e+03
+## kw_min_max                   8.568920e+01
+## kw_max_max                   4.937434e+02
+## kw_avg_max                   2.922331e+02
+## kw_min_avg                   1.681971e+02
+## kw_max_avg                   5.613865e+02
+## kw_avg_avg                   8.482491e+02
+## self_reference_min_shares    1.675438e+02
+## self_reference_max_shares    4.711316e+02
+## self_reference_avg_sharess   7.513447e+02
+## is_weekend                   3.047100e+00
+## LDA_00                                Inf
+## LDA_01                                Inf
+## LDA_02                                Inf
+## LDA_03                                Inf
+## LDA_04                                Inf
+## global_subjectivity          1.962047e+02
+## global_sentiment_polarity    8.283127e+02
+## global_rate_positive_words   4.454519e+02
+## global_rate_negative_words   8.188242e+02
+## rate_positive_words                   Inf
+## rate_negative_words          1.001846e+18
+## avg_positive_polarity        5.453237e+02
+## min_positive_polarity        8.098130e+01
+## max_positive_polarity        2.863428e+02
+## avg_negative_polarity        6.676721e+02
+## min_negative_polarity        4.397609e+02
+## max_negative_polarity        2.099988e+02
+## title_subjectivity           1.280036e+02
+## title_sentiment_polarity     2.872230e+01
+## abs_title_subjectivity       4.065820e+01
+## abs_title_sentiment_polarity 1.279445e+02
+##                              Leamer
+## timedelta                    0.7102
+## n_tokens_title               0.9411
+## n_tokens_content             0.4985
+## n_unique_tokens              0.0029
+## n_non_stop_words             0.0000
+## n_non_stop_unique_tokens     0.0037
+## num_hrefs                    0.8171
+## num_self_hrefs               0.8455
+## num_imgs                     0.7158
+## num_videos                   0.8400
+## average_token_length         0.2684
+## num_keywords                 0.8103
+## kw_min_min                   0.4822
+## kw_max_min                   0.2218
+## kw_avg_min                   0.2151
+## kw_min_max                   0.7516
+## kw_max_max                   0.4288
+## kw_avg_max                   0.5251
+## kw_min_avg                   0.6309
+## kw_max_avg                   0.4067
+## kw_avg_avg                   0.3405
+## self_reference_min_shares    0.6317
+## self_reference_max_shares    0.4370
+## self_reference_avg_sharess   0.3591
+## is_weekend                   0.9866
+## LDA_00                       0.0000
+## LDA_01                       0.0000
+## LDA_02                       0.0000
+## LDA_03                       0.0000
+## LDA_04                       0.0000
+## global_subjectivity          0.6015
+## global_sentiment_polarity    0.3441
+## global_rate_positive_words   0.4470
+## global_rate_negative_words   0.3458
+## rate_positive_words          0.0000
+## rate_negative_words          0.0000
+## avg_positive_polarity        0.4116
+## min_positive_polarity        0.7607
+## max_positive_polarity        0.5289
+## avg_negative_polarity        0.3779
+## min_negative_polarity        0.4493
+## max_negative_polarity        0.5884
+## title_subjectivity           0.6819
+## title_sentiment_polarity     0.8915
+## abs_title_subjectivity       0.8558
+## abs_title_sentiment_polarity 0.6819
+##                                      CVIF Klein
+## timedelta                    2.016100e+00     1
+## n_tokens_title               1.148400e+00     1
+## n_tokens_content             4.092100e+00     1
+## n_unique_tokens              1.209636e+05     1
+## n_non_stop_words                      Inf     1
+## n_non_stop_unique_tokens     7.234593e+04     1
+## num_hrefs                    1.523300e+00     1
+## num_self_hrefs               1.422600e+00     1
+## num_imgs                     1.984700e+00     1
+## num_videos                   1.441400e+00     1
+## average_token_length         1.411740e+01     1
+## num_keywords                 1.548800e+00     1
+## kw_min_min                   4.373300e+00     1
+## kw_max_min                   2.066460e+01     1
+## kw_avg_min                   2.197960e+01     1
+## kw_min_max                   1.800400e+00     1
+## kw_max_max                   5.531400e+00     1
+## kw_avg_max                   3.688900e+00     1
+## kw_min_avg                   2.554800e+00     1
+## kw_max_avg                   6.149800e+00     1
+## kw_avg_avg                   8.772700e+00     1
+## self_reference_min_shares    2.548900e+00     1
+## self_reference_max_shares    5.324600e+00     1
+## self_reference_avg_sharess   7.886700e+00     1
+## is_weekend                   1.044800e+00     0
+## LDA_00                                Inf     1
+## LDA_01                                Inf     1
+## LDA_02                                Inf     1
+## LDA_03                                Inf     1
+## LDA_04                                Inf     1
+## global_subjectivity          2.810900e+00     1
+## global_sentiment_polarity    8.590400e+00     1
+## global_rate_positive_words   5.089800e+00     1
+## global_rate_negative_words   8.503700e+00     1
+## rate_positive_words                   Inf     1
+## rate_negative_words          9.160086e+15     1
+## avg_positive_polarity        6.003000e+00     1
+## min_positive_polarity        1.757400e+00     1
+## max_positive_polarity        3.635100e+00     1
+## avg_negative_polarity        7.121600e+00     1
+## min_negative_polarity        5.037800e+00     1
+## max_negative_polarity        2.937000e+00     1
+## title_subjectivity           2.187300e+00     1
+## title_sentiment_polarity     1.279600e+00     1
+## abs_title_subjectivity       1.388700e+00     1
+## abs_title_sentiment_polarity 2.186800e+00     1
 ##                                IND1   IND2
 ## timedelta                    0.0045 0.7050
 ## n_tokens_title               0.0080 0.1628
@@ -877,132 +1075,216 @@ imcdiag(lm3)</code></pre>
 ## title_sentiment_polarity         1.2561 0.7961
 ## abs_title_subjectivity           1.3614 0.7345
 ## abs_title_sentiment_polarity     2.1492 0.4653
-##                                        Wi           Fi
-## timedelta                    1.161524e+02 1.191550e+02
-## n_tokens_title               1.435600e+01 1.472710e+01
-## n_tokens_content             3.676343e+02 3.771378e+02
-## n_unique_tokens              1.163069e+07 1.193134e+07
-## n_non_stop_words             3.224242e+06 3.307591e+06
-## n_non_stop_unique_tokens     6.955965e+06 7.135780e+06
-## num_hrefs                    5.643190e+01 5.789060e+01
-## num_self_hrefs               4.718840e+01 4.840820e+01
-## num_imgs                     1.158152e+02 1.188091e+02
-## num_videos                   4.592660e+01 4.711380e+01
-## average_token_length         2.702928e+02 2.772799e+02
-## num_keywords                 5.761510e+01 5.910450e+01
-## kw_min_min                   4.022590e+02 4.126575e+02
-## kw_max_min                   2.358149e+03 2.419109e+03
-## kw_avg_min                   2.508599e+03 2.573448e+03
-## kw_min_max                   9.257620e+01 9.496930e+01
-## kw_max_max                   5.317418e+02 5.454875e+02
-## kw_avg_max                   2.831604e+02 2.904802e+02
-## kw_min_avg                   1.759329e+02 1.804808e+02
-## kw_max_avg                   6.047609e+02 6.203942e+02
-## kw_avg_avg                   8.922124e+02 9.152764e+02
-## self_reference_min_shares    1.838646e+02 1.886176e+02
-## self_reference_max_shares    5.184610e+02 5.318635e+02
-## self_reference_avg_sharess   8.269389e+02 8.483156e+02
-## is_weekend                   3.070900e+00 3.150300e+00
-## LDA_00                       5.396700e+00 5.536200e+00
-## global_subjectivity          1.966565e+02 2.017402e+02
-## global_sentiment_polarity    9.071634e+02 9.306139e+02
-## global_rate_positive_words   4.574439e+02 4.692690e+02
-## global_rate_negative_words   8.700284e+02 8.925190e+02
-## rate_negative_words          1.047403e+03 1.074479e+03
-## avg_positive_polarity        5.969939e+02 6.124265e+02
-## min_positive_polarity        8.466310e+01 8.685170e+01
-## max_positive_polarity        3.134568e+02 3.215598e+02
-## avg_negative_polarity        7.338344e+02 7.528044e+02
-## min_negative_polarity        4.794968e+02 4.918920e+02
-## max_negative_polarity        2.274952e+02 2.333761e+02
-## title_subjectivity           1.405599e+02 1.441934e+02
-## title_sentiment_polarity     3.136110e+01 3.217180e+01
-## abs_title_subjectivity       4.425230e+01 4.539630e+01
-## abs_title_sentiment_polarity 1.407227e+02 1.443605e+02
-##                              Leamer       CVIF Klein
-## timedelta                    0.7164     1.9782     1
-## n_tokens_title               0.9461     1.1342     1
-## n_tokens_content             0.4999     4.0632     1
-## n_unique_tokens              0.0032 96429.3409     1
-## n_non_stop_words             0.0062 26732.7405     1
-## n_non_stop_unique_tokens     0.0042 57671.9122     1
-## num_hrefs                    0.8274     1.4831     1
-## num_self_hrefs               0.8496     1.4064     1
-## num_imgs                     0.7169     1.9754     1
-## num_videos                   0.8528     1.3960     1
-## average_token_length         0.5584     3.2562     1
-## num_keywords                 0.8246     1.4929     1
-## kw_min_min                   0.4831     4.3503     1
-## kw_max_min                   0.2222    20.5663     1
-## kw_avg_min                   0.2157    21.8136     1
-## kw_min_max                   0.7546     1.7828     1
-## kw_max_max                   0.4326     5.4238     1
-## kw_avg_max                   0.5494     3.3629     1
-## kw_min_avg                   0.6406     2.4738     1
-## kw_max_avg                   0.4103     6.0292     1
-## kw_avg_avg                   0.3474     8.4124     1
-## self_reference_min_shares    0.6323     2.5396     1
-## self_reference_max_shares    0.4371     5.3137     1
-## self_reference_avg_sharess   0.3591     7.8712     1
-## is_weekend                   0.9877     1.0407     0
-## LDA_00                       0.9787     1.0600     0
-## global_subjectivity          0.6195     2.6457     1
-## global_sentiment_polarity    0.3449     8.5364     1
-## global_rate_positive_words   0.4595     4.8078     1
-## global_rate_negative_words   0.3513     8.2285     1
-## rate_negative_words          0.3235     9.6991     1
-## avg_positive_polarity        0.4126     5.9648     1
-## min_positive_polarity        0.7689     1.7171     1
-## max_positive_polarity        0.5300     3.6140     1
-## avg_negative_polarity        0.3782     7.0993     1
-## min_negative_polarity        0.4510     4.9907     1
-## max_negative_polarity        0.5915     2.9013     1
-## title_subjectivity           0.6823     2.1806     1
-## title_sentiment_polarity     0.8922     1.2752     1
-## abs_title_subjectivity       0.8571     1.3821     1
-## abs_title_sentiment_polarity 0.6821     2.1819     1
-##                                IND1   IND2
-## timedelta                    0.0042 0.7730
-## n_tokens_title               0.0073 0.1666
-## n_tokens_content             0.0020 1.1912
-## n_unique_tokens              0.0000 1.5879
-## n_non_stop_words             0.0000 1.5879
-## n_non_stop_unique_tokens     0.0000 1.5879
-## num_hrefs                    0.0056 0.5009
-## num_self_hrefs               0.0059 0.4417
-## num_imgs                     0.0042 0.7718
-## num_videos                   0.0059 0.4331
-## average_token_length         0.0025 1.0928
-## num_keywords                 0.0056 0.5081
-## kw_min_min                   0.0019 1.2173
-## kw_max_min                   0.0004 1.5095
-## kw_avg_min                   0.0004 1.5140
-## kw_min_max                   0.0047 0.6837
-## kw_max_max                   0.0015 1.2907
-## kw_avg_max                   0.0025 1.1085
-## kw_min_avg                   0.0034 0.9363
-## kw_max_avg                   0.0014 1.3205
-## kw_avg_avg                   0.0010 1.3963
-## self_reference_min_shares    0.0033 0.9531
-## self_reference_max_shares    0.0016 1.2845
-## self_reference_avg_sharess   0.0011 1.3831
-## is_weekend                   0.0080 0.0388
-## LDA_00                       0.0078 0.0670
-## global_subjectivity          0.0031 0.9786
-## global_sentiment_polarity    0.0010 1.3991
-## global_rate_positive_words   0.0017 1.2526
-## global_rate_negative_words   0.0010 1.3920
-## rate_negative_words          0.0009 1.4217
-## avg_positive_polarity        0.0014 1.3176
-## min_positive_polarity        0.0048 0.6491
-## max_positive_polarity        0.0023 1.1419
-## avg_negative_polarity        0.0012 1.3608
-## min_negative_polarity        0.0017 1.2649
-## max_negative_polarity        0.0029 1.0323
-## title_subjectivity           0.0038 0.8486
-## title_sentiment_polarity     0.0065 0.3238
-## abs_title_subjectivity       0.0060 0.4215
-## abs_title_sentiment_polarity 0.0038 0.8491
+##                                        Wi
+## timedelta                    1.161524e+02
+## n_tokens_title               1.435600e+01
+## n_tokens_content             3.676343e+02
+## n_unique_tokens              1.163069e+07
+## n_non_stop_words             3.224242e+06
+## n_non_stop_unique_tokens     6.955965e+06
+## num_hrefs                    5.643190e+01
+## num_self_hrefs               4.718840e+01
+## num_imgs                     1.158152e+02
+## num_videos                   4.592660e+01
+## average_token_length         2.702928e+02
+## num_keywords                 5.761510e+01
+## kw_min_min                   4.022590e+02
+## kw_max_min                   2.358149e+03
+## kw_avg_min                   2.508599e+03
+## kw_min_max                   9.257620e+01
+## kw_max_max                   5.317418e+02
+## kw_avg_max                   2.831604e+02
+## kw_min_avg                   1.759329e+02
+## kw_max_avg                   6.047609e+02
+## kw_avg_avg                   8.922124e+02
+## self_reference_min_shares    1.838646e+02
+## self_reference_max_shares    5.184610e+02
+## self_reference_avg_sharess   8.269389e+02
+## is_weekend                   3.070900e+00
+## LDA_00                       5.396700e+00
+## global_subjectivity          1.966565e+02
+## global_sentiment_polarity    9.071634e+02
+## global_rate_positive_words   4.574439e+02
+## global_rate_negative_words   8.700284e+02
+## rate_negative_words          1.047403e+03
+## avg_positive_polarity        5.969939e+02
+## min_positive_polarity        8.466310e+01
+## max_positive_polarity        3.134568e+02
+## avg_negative_polarity        7.338344e+02
+## min_negative_polarity        4.794968e+02
+## max_negative_polarity        2.274952e+02
+## title_subjectivity           1.405599e+02
+## title_sentiment_polarity     3.136110e+01
+## abs_title_subjectivity       4.425230e+01
+## abs_title_sentiment_polarity 1.407227e+02
+##                                        Fi
+## timedelta                    1.191550e+02
+## n_tokens_title               1.472710e+01
+## n_tokens_content             3.771378e+02
+## n_unique_tokens              1.193134e+07
+## n_non_stop_words             3.307591e+06
+## n_non_stop_unique_tokens     7.135780e+06
+## num_hrefs                    5.789060e+01
+## num_self_hrefs               4.840820e+01
+## num_imgs                     1.188091e+02
+## num_videos                   4.711380e+01
+## average_token_length         2.772799e+02
+## num_keywords                 5.910450e+01
+## kw_min_min                   4.126575e+02
+## kw_max_min                   2.419109e+03
+## kw_avg_min                   2.573448e+03
+## kw_min_max                   9.496930e+01
+## kw_max_max                   5.454875e+02
+## kw_avg_max                   2.904802e+02
+## kw_min_avg                   1.804808e+02
+## kw_max_avg                   6.203942e+02
+## kw_avg_avg                   9.152764e+02
+## self_reference_min_shares    1.886176e+02
+## self_reference_max_shares    5.318635e+02
+## self_reference_avg_sharess   8.483156e+02
+## is_weekend                   3.150300e+00
+## LDA_00                       5.536200e+00
+## global_subjectivity          2.017402e+02
+## global_sentiment_polarity    9.306139e+02
+## global_rate_positive_words   4.692690e+02
+## global_rate_negative_words   8.925190e+02
+## rate_negative_words          1.074479e+03
+## avg_positive_polarity        6.124265e+02
+## min_positive_polarity        8.685170e+01
+## max_positive_polarity        3.215598e+02
+## avg_negative_polarity        7.528044e+02
+## min_negative_polarity        4.918920e+02
+## max_negative_polarity        2.333761e+02
+## title_subjectivity           1.441934e+02
+## title_sentiment_polarity     3.217180e+01
+## abs_title_subjectivity       4.539630e+01
+## abs_title_sentiment_polarity 1.443605e+02
+##                              Leamer       CVIF
+## timedelta                    0.7164     1.9782
+## n_tokens_title               0.9461     1.1342
+## n_tokens_content             0.4999     4.0632
+## n_unique_tokens              0.0032 96429.3409
+## n_non_stop_words             0.0062 26732.7405
+## n_non_stop_unique_tokens     0.0042 57671.9122
+## num_hrefs                    0.8274     1.4831
+## num_self_hrefs               0.8496     1.4064
+## num_imgs                     0.7169     1.9754
+## num_videos                   0.8528     1.3960
+## average_token_length         0.5584     3.2562
+## num_keywords                 0.8246     1.4929
+## kw_min_min                   0.4831     4.3503
+## kw_max_min                   0.2222    20.5663
+## kw_avg_min                   0.2157    21.8136
+## kw_min_max                   0.7546     1.7828
+## kw_max_max                   0.4326     5.4238
+## kw_avg_max                   0.5494     3.3629
+## kw_min_avg                   0.6406     2.4738
+## kw_max_avg                   0.4103     6.0292
+## kw_avg_avg                   0.3474     8.4124
+## self_reference_min_shares    0.6323     2.5396
+## self_reference_max_shares    0.4371     5.3137
+## self_reference_avg_sharess   0.3591     7.8712
+## is_weekend                   0.9877     1.0407
+## LDA_00                       0.9787     1.0600
+## global_subjectivity          0.6195     2.6457
+## global_sentiment_polarity    0.3449     8.5364
+## global_rate_positive_words   0.4595     4.8078
+## global_rate_negative_words   0.3513     8.2285
+## rate_negative_words          0.3235     9.6991
+## avg_positive_polarity        0.4126     5.9648
+## min_positive_polarity        0.7689     1.7171
+## max_positive_polarity        0.5300     3.6140
+## avg_negative_polarity        0.3782     7.0993
+## min_negative_polarity        0.4510     4.9907
+## max_negative_polarity        0.5915     2.9013
+## title_subjectivity           0.6823     2.1806
+## title_sentiment_polarity     0.8922     1.2752
+## abs_title_subjectivity       0.8571     1.3821
+## abs_title_sentiment_polarity 0.6821     2.1819
+##                              Klein   IND1
+## timedelta                        1 0.0042
+## n_tokens_title                   1 0.0073
+## n_tokens_content                 1 0.0020
+## n_unique_tokens                  1 0.0000
+## n_non_stop_words                 1 0.0000
+## n_non_stop_unique_tokens         1 0.0000
+## num_hrefs                        1 0.0056
+## num_self_hrefs                   1 0.0059
+## num_imgs                         1 0.0042
+## num_videos                       1 0.0059
+## average_token_length             1 0.0025
+## num_keywords                     1 0.0056
+## kw_min_min                       1 0.0019
+## kw_max_min                       1 0.0004
+## kw_avg_min                       1 0.0004
+## kw_min_max                       1 0.0047
+## kw_max_max                       1 0.0015
+## kw_avg_max                       1 0.0025
+## kw_min_avg                       1 0.0034
+## kw_max_avg                       1 0.0014
+## kw_avg_avg                       1 0.0010
+## self_reference_min_shares        1 0.0033
+## self_reference_max_shares        1 0.0016
+## self_reference_avg_sharess       1 0.0011
+## is_weekend                       0 0.0080
+## LDA_00                           0 0.0078
+## global_subjectivity              1 0.0031
+## global_sentiment_polarity        1 0.0010
+## global_rate_positive_words       1 0.0017
+## global_rate_negative_words       1 0.0010
+## rate_negative_words              1 0.0009
+## avg_positive_polarity            1 0.0014
+## min_positive_polarity            1 0.0048
+## max_positive_polarity            1 0.0023
+## avg_negative_polarity            1 0.0012
+## min_negative_polarity            1 0.0017
+## max_negative_polarity            1 0.0029
+## title_subjectivity               1 0.0038
+## title_sentiment_polarity         1 0.0065
+## abs_title_subjectivity           1 0.0060
+## abs_title_sentiment_polarity     1 0.0038
+##                                IND2
+## timedelta                    0.7730
+## n_tokens_title               0.1666
+## n_tokens_content             1.1912
+## n_unique_tokens              1.5879
+## n_non_stop_words             1.5879
+## n_non_stop_unique_tokens     1.5879
+## num_hrefs                    0.5009
+## num_self_hrefs               0.4417
+## num_imgs                     0.7718
+## num_videos                   0.4331
+## average_token_length         1.0928
+## num_keywords                 0.5081
+## kw_min_min                   1.2173
+## kw_max_min                   1.5095
+## kw_avg_min                   1.5140
+## kw_min_max                   0.6837
+## kw_max_max                   1.2907
+## kw_avg_max                   1.1085
+## kw_min_avg                   0.9363
+## kw_max_avg                   1.3205
+## kw_avg_avg                   1.3963
+## self_reference_min_shares    0.9531
+## self_reference_max_shares    1.2845
+## self_reference_avg_sharess   1.3831
+## is_weekend                   0.0388
+## LDA_00                       0.0670
+## global_subjectivity          0.9786
+## global_sentiment_polarity    1.3991
+## global_rate_positive_words   1.2526
+## global_rate_negative_words   1.3920
+## rate_negative_words          1.4217
+## avg_positive_polarity        1.3176
+## min_positive_polarity        0.6491
+## max_positive_polarity        1.1419
+## avg_negative_polarity        1.3608
+## min_negative_polarity        1.2649
+## max_negative_polarity        1.0323
+## title_subjectivity           0.8486
+## title_sentiment_polarity     0.3238
+## abs_title_subjectivity       0.4215
+## abs_title_sentiment_polarity 0.8491
 ## 
 ## 1 --&gt; COLLINEARITY is detected by the test 
 ## 0 --&gt; COLLINEARITY is not detected by the test
@@ -1031,105 +1313,171 @@ imcdiag(lm4)</code></pre>
 ## 
 ## All Individual Multicollinearity Diagnostics Result
 ## 
-##                                 VIF    TOL       Wi
-## timedelta                    1.7835 0.5607 124.0235
-## n_tokens_title               1.1147 0.8971  18.1529
-## n_tokens_content             2.4126 0.4145 223.5984
-## n_non_stop_unique_tokens     1.0144 0.9858   2.2860
-## num_hrefs                    1.3945 0.7171  62.4495
-## num_self_hrefs               1.3690 0.7305  58.4095
-## num_imgs                     1.4872 0.6724  77.1237
-## num_videos                   1.2979 0.7705  47.1492
-## average_token_length         2.1902 0.4566 188.3955
-## num_keywords                 1.3484 0.7416  55.1408
-## kw_min_min                   1.7865 0.5598 124.4928
-## kw_max_min                   1.6248 0.6155  98.9016
-## kw_min_max                   1.7194 0.5816 113.8798
-## kw_avg_max                   2.4462 0.4088 228.9205
-## kw_min_avg                   1.5730 0.6357  90.7006
-## kw_max_avg                   1.7006 0.5880 110.8908
-## self_reference_min_shares    1.0870 0.9200  13.7707
-## self_reference_max_shares    1.1181 0.8944  18.6975
-## is_weekend                   1.0199 0.9805   3.1439
-## LDA_00                       1.0390 0.9625   6.1670
-## global_subjectivity          2.4380 0.4102 227.6208
-## global_rate_positive_words   1.6757 0.5968 106.9514
-## global_rate_negative_words   1.5732 0.6356  90.7323
-## avg_positive_polarity        3.5549 0.2813 404.4187
-## min_positive_polarity        1.6436 0.6084 101.8805
-## max_positive_polarity        3.3739 0.2964 375.7605
-## min_negative_polarity        1.9729 0.5069 154.0013
-## max_negative_polarity        1.2655 0.7902  42.0236
-## title_subjectivity           2.1444 0.4663 181.1424
-## title_sentiment_polarity     1.2280 0.8143  36.0862
-## abs_title_subjectivity       1.3584 0.7362  56.7251
-## abs_title_sentiment_polarity 2.1264 0.4703 178.2941
-##                                    Fi Leamer   CVIF
-## timedelta                    128.1838 0.7488 1.7889
-## n_tokens_title                18.7618 0.9472 1.1181
-## n_tokens_content             231.0988 0.6438 2.4199
-## n_non_stop_unique_tokens       2.3627 0.9929 1.0175
-## num_hrefs                     64.5443 0.8468 1.3988
-## num_self_hrefs                60.3688 0.8547 1.3732
-## num_imgs                      79.7107 0.8200 1.4917
-## num_videos                    48.7308 0.8778 1.3018
-## average_token_length         194.7150 0.6757 2.1968
-## num_keywords                  56.9904 0.8612 1.3524
-## kw_min_min                   128.6688 0.7482 1.7919
-## kw_max_min                   102.2192 0.7845 1.6297
-## kw_min_max                   117.6998 0.7626 1.7247
-## kw_avg_max                   236.5993 0.6394 2.4536
-## kw_min_avg                    93.7430 0.7973 1.5778
-## kw_max_avg                   114.6105 0.7668 1.7057
-## self_reference_min_shares     14.2326 0.9591 1.0903
-## self_reference_max_shares     19.3247 0.9457 1.1215
-## is_weekend                     3.2493 0.9902 1.0230
-## LDA_00                         6.3739 0.9811 1.0421
-## global_subjectivity          235.2561 0.6404 2.4454
-## global_rate_positive_words   110.5390 0.7725 1.6808
-## global_rate_negative_words    93.7758 0.7973 1.5780
-## avg_positive_polarity        417.9844 0.5304 3.5657
-## min_positive_polarity        105.2979 0.7800 1.6486
-## max_positive_polarity        388.3650 0.5444 3.3841
-## min_negative_polarity        159.1671 0.7119 1.9789
-## max_negative_polarity         43.4332 0.8889 1.2693
-## title_subjectivity           187.2186 0.6829 2.1509
-## title_sentiment_polarity      37.2967 0.9024 1.2317
-## abs_title_subjectivity        58.6279 0.8580 1.3625
-## abs_title_sentiment_polarity 184.2748 0.6858 2.1328
-##                              Klein   IND1   IND2
-## timedelta                        1 0.0035 1.2448
-## n_tokens_title                   1 0.0057 0.2915
-## n_tokens_content                 1 0.0026 1.6590
-## n_non_stop_unique_tokens         0 0.0062 0.0403
-## num_hrefs                        1 0.0045 0.8016
-## num_self_hrefs                   1 0.0046 0.7637
-## num_imgs                         1 0.0042 0.9283
-## num_videos                       1 0.0049 0.6503
-## average_token_length             1 0.0029 1.5398
-## num_keywords                     1 0.0047 0.7320
-## kw_min_min                       1 0.0035 1.2474
-## kw_max_min                       1 0.0039 1.0896
-## kw_min_max                       1 0.0037 1.1856
-## kw_avg_max                       1 0.0026 1.6752
-## kw_min_avg                       1 0.0040 1.0322
-## kw_max_avg                       1 0.0037 1.1673
-## self_reference_min_shares        1 0.0058 0.2268
-## self_reference_max_shares        1 0.0057 0.2993
-## is_weekend                       0 0.0062 0.0552
-## LDA_00                           0 0.0061 0.1063
-## global_subjectivity              1 0.0026 1.6712
-## global_rate_positive_words       1 0.0038 1.1425
-## global_rate_negative_words       1 0.0040 1.0324
-## avg_positive_polarity            1 0.0018 2.0364
-## min_positive_polarity            1 0.0038 1.1096
-## max_positive_polarity            1 0.0019 1.9936
-## min_negative_polarity            1 0.0032 1.3973
-## max_negative_polarity            1 0.0050 0.5944
-## title_subjectivity               1 0.0029 1.5121
-## title_sentiment_polarity         1 0.0051 0.5260
-## abs_title_subjectivity           1 0.0047 0.7475
-## abs_title_sentiment_polarity     1 0.0030 1.5009
+##                                 VIF    TOL
+## timedelta                    1.7835 0.5607
+## n_tokens_title               1.1147 0.8971
+## n_tokens_content             2.4126 0.4145
+## n_non_stop_unique_tokens     1.0144 0.9858
+## num_hrefs                    1.3945 0.7171
+## num_self_hrefs               1.3690 0.7305
+## num_imgs                     1.4872 0.6724
+## num_videos                   1.2979 0.7705
+## average_token_length         2.1902 0.4566
+## num_keywords                 1.3484 0.7416
+## kw_min_min                   1.7865 0.5598
+## kw_max_min                   1.6248 0.6155
+## kw_min_max                   1.7194 0.5816
+## kw_avg_max                   2.4462 0.4088
+## kw_min_avg                   1.5730 0.6357
+## kw_max_avg                   1.7006 0.5880
+## self_reference_min_shares    1.0870 0.9200
+## self_reference_max_shares    1.1181 0.8944
+## is_weekend                   1.0199 0.9805
+## LDA_00                       1.0390 0.9625
+## global_subjectivity          2.4380 0.4102
+## global_rate_positive_words   1.6757 0.5968
+## global_rate_negative_words   1.5732 0.6356
+## avg_positive_polarity        3.5549 0.2813
+## min_positive_polarity        1.6436 0.6084
+## max_positive_polarity        3.3739 0.2964
+## min_negative_polarity        1.9729 0.5069
+## max_negative_polarity        1.2655 0.7902
+## title_subjectivity           2.1444 0.4663
+## title_sentiment_polarity     1.2280 0.8143
+## abs_title_subjectivity       1.3584 0.7362
+## abs_title_sentiment_polarity 2.1264 0.4703
+##                                    Wi       Fi
+## timedelta                    124.0235 128.1838
+## n_tokens_title                18.1529  18.7618
+## n_tokens_content             223.5984 231.0988
+## n_non_stop_unique_tokens       2.2860   2.3627
+## num_hrefs                     62.4495  64.5443
+## num_self_hrefs                58.4095  60.3688
+## num_imgs                      77.1237  79.7107
+## num_videos                    47.1492  48.7308
+## average_token_length         188.3955 194.7150
+## num_keywords                  55.1408  56.9904
+## kw_min_min                   124.4928 128.6688
+## kw_max_min                    98.9016 102.2192
+## kw_min_max                   113.8798 117.6998
+## kw_avg_max                   228.9205 236.5993
+## kw_min_avg                    90.7006  93.7430
+## kw_max_avg                   110.8908 114.6105
+## self_reference_min_shares     13.7707  14.2326
+## self_reference_max_shares     18.6975  19.3247
+## is_weekend                     3.1439   3.2493
+## LDA_00                         6.1670   6.3739
+## global_subjectivity          227.6208 235.2561
+## global_rate_positive_words   106.9514 110.5390
+## global_rate_negative_words    90.7323  93.7758
+## avg_positive_polarity        404.4187 417.9844
+## min_positive_polarity        101.8805 105.2979
+## max_positive_polarity        375.7605 388.3650
+## min_negative_polarity        154.0013 159.1671
+## max_negative_polarity         42.0236  43.4332
+## title_subjectivity           181.1424 187.2186
+## title_sentiment_polarity      36.0862  37.2967
+## abs_title_subjectivity        56.7251  58.6279
+## abs_title_sentiment_polarity 178.2941 184.2748
+##                              Leamer   CVIF
+## timedelta                    0.7488 1.7889
+## n_tokens_title               0.9472 1.1181
+## n_tokens_content             0.6438 2.4199
+## n_non_stop_unique_tokens     0.9929 1.0175
+## num_hrefs                    0.8468 1.3988
+## num_self_hrefs               0.8547 1.3732
+## num_imgs                     0.8200 1.4917
+## num_videos                   0.8778 1.3018
+## average_token_length         0.6757 2.1968
+## num_keywords                 0.8612 1.3524
+## kw_min_min                   0.7482 1.7919
+## kw_max_min                   0.7845 1.6297
+## kw_min_max                   0.7626 1.7247
+## kw_avg_max                   0.6394 2.4536
+## kw_min_avg                   0.7973 1.5778
+## kw_max_avg                   0.7668 1.7057
+## self_reference_min_shares    0.9591 1.0903
+## self_reference_max_shares    0.9457 1.1215
+## is_weekend                   0.9902 1.0230
+## LDA_00                       0.9811 1.0421
+## global_subjectivity          0.6404 2.4454
+## global_rate_positive_words   0.7725 1.6808
+## global_rate_negative_words   0.7973 1.5780
+## avg_positive_polarity        0.5304 3.5657
+## min_positive_polarity        0.7800 1.6486
+## max_positive_polarity        0.5444 3.3841
+## min_negative_polarity        0.7119 1.9789
+## max_negative_polarity        0.8889 1.2693
+## title_subjectivity           0.6829 2.1509
+## title_sentiment_polarity     0.9024 1.2317
+## abs_title_subjectivity       0.8580 1.3625
+## abs_title_sentiment_polarity 0.6858 2.1328
+##                              Klein   IND1
+## timedelta                        1 0.0035
+## n_tokens_title                   1 0.0057
+## n_tokens_content                 1 0.0026
+## n_non_stop_unique_tokens         0 0.0062
+## num_hrefs                        1 0.0045
+## num_self_hrefs                   1 0.0046
+## num_imgs                         1 0.0042
+## num_videos                       1 0.0049
+## average_token_length             1 0.0029
+## num_keywords                     1 0.0047
+## kw_min_min                       1 0.0035
+## kw_max_min                       1 0.0039
+## kw_min_max                       1 0.0037
+## kw_avg_max                       1 0.0026
+## kw_min_avg                       1 0.0040
+## kw_max_avg                       1 0.0037
+## self_reference_min_shares        1 0.0058
+## self_reference_max_shares        1 0.0057
+## is_weekend                       0 0.0062
+## LDA_00                           0 0.0061
+## global_subjectivity              1 0.0026
+## global_rate_positive_words       1 0.0038
+## global_rate_negative_words       1 0.0040
+## avg_positive_polarity            1 0.0018
+## min_positive_polarity            1 0.0038
+## max_positive_polarity            1 0.0019
+## min_negative_polarity            1 0.0032
+## max_negative_polarity            1 0.0050
+## title_subjectivity               1 0.0029
+## title_sentiment_polarity         1 0.0051
+## abs_title_subjectivity           1 0.0047
+## abs_title_sentiment_polarity     1 0.0030
+##                                IND2
+## timedelta                    1.2448
+## n_tokens_title               0.2915
+## n_tokens_content             1.6590
+## n_non_stop_unique_tokens     0.0403
+## num_hrefs                    0.8016
+## num_self_hrefs               0.7637
+## num_imgs                     0.9283
+## num_videos                   0.6503
+## average_token_length         1.5398
+## num_keywords                 0.7320
+## kw_min_min                   1.2474
+## kw_max_min                   1.0896
+## kw_min_max                   1.1856
+## kw_avg_max                   1.6752
+## kw_min_avg                   1.0322
+## kw_max_avg                   1.1673
+## self_reference_min_shares    0.2268
+## self_reference_max_shares    0.2993
+## is_weekend                   0.0552
+## LDA_00                       0.1063
+## global_subjectivity          1.6712
+## global_rate_positive_words   1.1425
+## global_rate_negative_words   1.0324
+## avg_positive_polarity        2.0364
+## min_positive_polarity        1.1096
+## max_positive_polarity        1.9936
+## min_negative_polarity        1.3973
+## max_negative_polarity        0.5944
+## title_subjectivity           1.5121
+## title_sentiment_polarity     0.5260
+## abs_title_subjectivity       0.7475
+## abs_title_sentiment_polarity 1.5009
 ## 
 ## 1 --&gt; COLLINEARITY is detected by the test 
 ## 0 --&gt; COLLINEARITY is not detected by the test
@@ -1178,51 +1526,95 @@ plot(backward_summary$bic, xlab = &quot;Size&quot;, ylab = &quot;backward bic&qu
 plot(backward_summary$adjr2, xlab = &quot;Size&quot;, ylab = &quot;backward adjR2&quot;, type = &quot;l&quot;)</code></pre>
 <p><img src="data:image/png;base64,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" width="672" /></p>
 <pre class="r"><code>coef(backward, which.min(backward_summary$cp))</code></pre>
-<pre><code>##                (Intercept)                  timedelta 
-##               6.359931e+00               2.248744e-04 
-##            n_unique_tokens           n_non_stop_words 
-##               2.460419e-01              -1.639688e-01 
-##                  num_hrefs                   num_imgs 
-##               3.949443e-03               2.802931e-03 
-##       average_token_length                 kw_min_min 
-##              -3.251348e-02               9.892610e-04 
-##                 kw_max_min                 kw_avg_min 
-##               7.506077e-05              -4.979849e-04 
-##                 kw_min_max                 kw_avg_max 
-##              -1.575758e-06              -3.675655e-07 
-##                 kw_min_avg                 kw_max_avg 
-##              -6.084209e-05              -3.928801e-05 
-##                 kw_avg_avg  self_reference_min_shares 
-##               3.665636e-04               5.092764e-06 
-## self_reference_avg_sharess                 is_weekend 
-##               3.115176e-06               3.834877e-01 
-##        global_subjectivity   title_sentiment_polarity 
-##               4.009758e-01               8.662371e-02</code></pre>
+<pre><code>##                (Intercept) 
+##               6.359931e+00 
+##                  timedelta 
+##               2.248744e-04 
+##            n_unique_tokens 
+##               2.460419e-01 
+##           n_non_stop_words 
+##              -1.639688e-01 
+##                  num_hrefs 
+##               3.949443e-03 
+##                   num_imgs 
+##               2.802931e-03 
+##       average_token_length 
+##              -3.251348e-02 
+##                 kw_min_min 
+##               9.892610e-04 
+##                 kw_max_min 
+##               7.506077e-05 
+##                 kw_avg_min 
+##              -4.979849e-04 
+##                 kw_min_max 
+##              -1.575758e-06 
+##                 kw_avg_max 
+##              -3.675655e-07 
+##                 kw_min_avg 
+##              -6.084209e-05 
+##                 kw_max_avg 
+##              -3.928801e-05 
+##                 kw_avg_avg 
+##               3.665636e-04 
+##  self_reference_min_shares 
+##               5.092764e-06 
+## self_reference_avg_sharess 
+##               3.115176e-06 
+##                 is_weekend 
+##               3.834877e-01 
+##        global_subjectivity 
+##               4.009758e-01 
+##   title_sentiment_polarity 
+##               8.662371e-02</code></pre>
 <pre class="r"><code>coef(backward, which.max(backward_summary$adjr2))</code></pre>
-<pre><code>##                (Intercept)                  timedelta 
-##               6.275777e+00               2.372227e-04 
-##            n_unique_tokens           n_non_stop_words 
-##               2.359931e-01              -1.571340e-01 
-##                  num_hrefs             num_self_hrefs 
-##               4.390640e-03              -6.530367e-03 
-##                   num_imgs       average_token_length 
-##               2.730878e-03              -3.634229e-02 
-##               num_keywords                 kw_min_min 
-##               1.096753e-02               9.840874e-04 
-##                 kw_max_min                 kw_avg_min 
-##               7.101020e-05              -4.744792e-04 
-##                 kw_min_max                 kw_avg_max 
-##              -1.497845e-06              -3.054739e-07 
-##                 kw_min_avg                 kw_max_avg 
-##              -5.262641e-05              -3.814651e-05 
-##                 kw_avg_avg  self_reference_min_shares 
-##               3.540103e-04               4.831342e-06 
-## self_reference_avg_sharess                 is_weekend 
-##               3.177461e-06               3.797716e-01 
-##        global_subjectivity  global_sentiment_polarity 
-##               4.278686e-01              -2.743433e-01 
-##      avg_positive_polarity      avg_negative_polarity 
-##               3.187604e-01               1.800516e-01 
+<pre><code>##                (Intercept) 
+##               6.275777e+00 
+##                  timedelta 
+##               2.372227e-04 
+##            n_unique_tokens 
+##               2.359931e-01 
+##           n_non_stop_words 
+##              -1.571340e-01 
+##                  num_hrefs 
+##               4.390640e-03 
+##             num_self_hrefs 
+##              -6.530367e-03 
+##                   num_imgs 
+##               2.730878e-03 
+##       average_token_length 
+##              -3.634229e-02 
+##               num_keywords 
+##               1.096753e-02 
+##                 kw_min_min 
+##               9.840874e-04 
+##                 kw_max_min 
+##               7.101020e-05 
+##                 kw_avg_min 
+##              -4.744792e-04 
+##                 kw_min_max 
+##              -1.497845e-06 
+##                 kw_avg_max 
+##              -3.054739e-07 
+##                 kw_min_avg 
+##              -5.262641e-05 
+##                 kw_max_avg 
+##              -3.814651e-05 
+##                 kw_avg_avg 
+##               3.540103e-04 
+##  self_reference_min_shares 
+##               4.831342e-06 
+## self_reference_avg_sharess 
+##               3.177461e-06 
+##                 is_weekend 
+##               3.797716e-01 
+##        global_subjectivity 
+##               4.278686e-01 
+##  global_sentiment_polarity 
+##              -2.743433e-01 
+##      avg_positive_polarity 
+##               3.187604e-01 
+##      avg_negative_polarity 
+##               1.800516e-01 
 ##   title_sentiment_polarity 
 ##               8.969644e-02</code></pre>
 <pre class="r"><code>#get best subset of the specified size with min cp.
@@ -1312,52 +1704,52 @@ train.gbm</code></pre>
 ## Summary of sample sizes: 4444, 4445, 4446, 4445, 4445, 4445, ... 
 ## Resampling results across tuning parameters:
 ## 
-##   shrinkage  interaction.depth  n.trees  RMSE     
-##   0.01       1                  1000     0.8841281
-##   0.01       1                  1500     0.8842039
-##   0.01       2                  1000     0.8820263
-##   0.01       2                  1500     0.8825698
-##   0.01       3                  1000     0.8814746
-##   0.01       3                  1500     0.8815216
-##   0.05       1                  1000     0.8887882
-##   0.05       1                  1500     0.8893549
-##   0.05       2                  1000     0.8877622
-##   0.05       2                  1500     0.8919530
-##   0.05       3                  1000     0.8941961
-##   0.05       3                  1500     0.8996497
-##   0.10       1                  1000     0.8925149
-##   0.10       1                  1500     0.8964512
-##   0.10       2                  1000     0.9019077
-##   0.10       2                  1500     0.9106656
-##   0.10       3                  1000     0.9122806
-##   0.10       3                  1500     0.9250621
-##   Rsquared    MAE      
-##   0.08217999  0.6440422
-##   0.08143092  0.6438606
-##   0.08596822  0.6420833
-##   0.08482791  0.6422959
-##   0.08697862  0.6413679
-##   0.08730261  0.6413223
-##   0.07467966  0.6479425
-##   0.07568352  0.6485909
-##   0.08120022  0.6485939
-##   0.07863012  0.6528402
-##   0.07510587  0.6515209
-##   0.07322834  0.6582453
-##   0.07337518  0.6516451
-##   0.07068175  0.6555460
-##   0.07059665  0.6593679
-##   0.06684562  0.6680623
-##   0.06609103  0.6691724
-##   0.06030796  0.6807065
+##   shrinkage  interaction.depth  n.trees
+##   0.01       1                  1000   
+##   0.01       1                  1500   
+##   0.01       2                  1000   
+##   0.01       2                  1500   
+##   0.01       3                  1000   
+##   0.01       3                  1500   
+##   0.05       1                  1000   
+##   0.05       1                  1500   
+##   0.05       2                  1000   
+##   0.05       2                  1500   
+##   0.05       3                  1000   
+##   0.05       3                  1500   
+##   0.10       1                  1000   
+##   0.10       1                  1500   
+##   0.10       2                  1000   
+##   0.10       2                  1500   
+##   0.10       3                  1000   
+##   0.10       3                  1500   
+##   RMSE       Rsquared    MAE      
+##   0.8841281  0.08217999  0.6440422
+##   0.8842039  0.08143092  0.6438606
+##   0.8820263  0.08596822  0.6420833
+##   0.8825698  0.08482791  0.6422959
+##   0.8814746  0.08697862  0.6413679
+##   0.8815216  0.08730261  0.6413223
+##   0.8887882  0.07467966  0.6479425
+##   0.8893549  0.07568352  0.6485909
+##   0.8877622  0.08120022  0.6485939
+##   0.8919530  0.07863012  0.6528402
+##   0.8941961  0.07510587  0.6515209
+##   0.8996497  0.07322834  0.6582453
+##   0.8925149  0.07337518  0.6516451
+##   0.8964512  0.07068175  0.6555460
+##   0.9019077  0.07059665  0.6593679
+##   0.9106656  0.06684562  0.6680623
+##   0.9122806  0.06609103  0.6691724
+##   0.9250621  0.06030796  0.6807065
 ## 
-## Tuning parameter &#39;n.minobsinnode&#39; was held constant at
-##  a value of 20
-## RMSE was used to select the optimal model using
-##  the smallest value.
-## The final values used for the model were n.trees =
-##  1000, interaction.depth = 3, shrinkage = 0.01
-##  and n.minobsinnode = 20.</code></pre>
+## Tuning parameter &#39;n.minobsinnode&#39; was
+##  held constant at a value of 20
+## RMSE was used to select the optimal model
+##  using the smallest value.
+## The final values used for the model
+##  were n.trees = 1000, interaction.depth =
+##  3, shrinkage = 0.01 and n.minobsinnode = 20.</code></pre>
 <pre class="r"><code>boostPred &lt;- predict(train.gbm, newdata = test)
 RMSE_boost &lt;- sqrt(mean((test$shares - exp(boostPred))^2))</code></pre>
 </div>
@@ -1368,10 +1760,12 @@ RMSE_boost &lt;- sqrt(mean((test$shares - exp(boostPred))^2))</code></pre>
 <pre class="r"><code>comparison&lt;-data.frame(RMSE_lm, RMSE_lm2, RMSE_lm3, RMSE_lm4, RMSE_back,  RMSE_bag, RMSE_rfTrimmed, RMSE_boost, RMSE_regTree)
 
 comparison  </code></pre>
-<pre><code>##    RMSE_lm RMSE_lm2 RMSE_lm3 RMSE_lm4 RMSE_back RMSE_bag
-## 1 9473.409 9473.886 9472.282 9532.991  9453.578 9576.123
-##   RMSE_rfTrimmed RMSE_boost RMSE_regTree
-## 1       9426.932   9498.925     9542.537</code></pre>
+<pre><code>##    RMSE_lm RMSE_lm2 RMSE_lm3 RMSE_lm4 RMSE_back
+## 1 9473.409 9473.886 9472.282 9532.991  9453.578
+##   RMSE_bag RMSE_rfTrimmed RMSE_boost
+## 1 9576.123       9426.932   9498.925
+##   RMSE_regTree
+## 1     9542.537</code></pre>
 <pre class="r"><code>which.min(comparison)</code></pre>
 <pre><code>## RMSE_rfTrimmed 
 ##              7</code></pre>
