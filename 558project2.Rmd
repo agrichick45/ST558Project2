@@ -68,7 +68,7 @@ test <- testing(index)
 
 This graphical function looks at the correlation of all of the different variables against each other.  
 
-```{r, message=FALSE, warning=FALSE}}
+```{r, message=FALSE, warning=FALSE}
 library(corrplot)
 #drop values that are not important (the days of the week)
 newTrain<-train[ -c(25:31) ]
@@ -152,7 +152,7 @@ train<-train%>%select(-weekday)
 
 Classification trees are machine learning algorithms that have several benefits, including the ease of operation, and less pre-processing. Data does not require normalization, scaling, and removal of missing values. The results are usually easy to explain, and stakeholders usually can understand them. A regression tree is a tree that uses numerical values to predict the nodes and tree branches.  Despite all of the benefits, the Decision Tree algorithm can't be used for regression and predicting continuous values, it also does not transfer well to other datasets. 
 
-```{r, message=FALSE, warning=FALSE}}
+```{r, message=FALSE, warning=FALSE}
 library(tree)
 tree.news<-tree(shares~., data=train)
 summary(tree.news)
@@ -198,7 +198,7 @@ plot(lm)
 Looking at our residuals, there seems to be skewing in both direction, indicating that the data, even after transformation, has extreme outliers in both directions.
 
 ### Model Removing the Day Variable
-```{r, message=FALSE, warning=FALSE}}
+```{r, message=FALSE, warning=FALSE}
 #look at the data for multicolinearity
 lmNewTest<-test[ -c(25:31) ]
 lm2<- lm(log(shares)~.,newTrain)
@@ -270,7 +270,7 @@ yhat_lm4<-predict(lm4,trimTest4)
 RMSE_lm4<-sqrt(mean((trimTest4$shares - exp(yhat_lm4))^2))
 ```
 ### Open Parallel Processing
-```{r, message=FALSE, warning=FALSE}}
+```{r, message=FALSE, warning=FALSE}
 library(parallel)
 library(doParallel)
 cores<-detectCores()-1
@@ -280,7 +280,7 @@ registerDoParallel(cl)
 ### Backward Regression Selection  
 
 Transform the response with log, then fit a linear regression model with the variables after backward selection.  
-```{r, message=FALSE, warning=FALSE}}
+```{r, message=FALSE, warning=FALSE}
 #backward selection after log transformation
 library(leaps)
 backward<- regsubsets(log(shares)~., trimTrain1, nvmax = 31, method = "backward")
@@ -311,7 +311,7 @@ As previously mentioned in the regression trees section, the random forest build
 
 The manual dimensional reduction was necessary to have the processing speeds to handle the random forests model. 
 
-```{r, message=FALSE, warning=FALSE}}
+```{r, message=FALSE, warning=FALSE}
 library(randomForest)
 #single bagged model
 tree.train<-randomForest(shares~., data=trimTrain1, mtry=32, importance=TRUE)
