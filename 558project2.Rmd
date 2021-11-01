@@ -273,8 +273,8 @@ RMSE_lm4<-sqrt(mean((trimTest4$shares - exp(yhat_lm4))^2))
 ```{r, message=FALSE, warning=FALSE}
 library(parallel)
 library(doParallel)
-cores<-detectCores()-1
-cl <- makeCluster(no_cores-1)  
+cores<-detectCores()
+cl <- makeCluster(cores-1)  
 registerDoParallel(cl)  
 ```
 ### Backward Regression Selection  
